@@ -2,7 +2,7 @@
 
 #[ink::contract]
 mod refugee_registry {
-    use ink::storage::{ Mapping as StorageHashMap};
+    use ink::storage::Mapping as StorageHashMap;
     use ink_prelude::vec::Vec;
 
     #[ink(storage)]
@@ -12,7 +12,7 @@ mod refugee_registry {
         governments: StorageHashMap<AccountId, Government>,
         employers: StorageHashMap<AccountId, Employer>,
         job_contracts: StorageHashMap<AccountId, JobContract>,
-        refugees: StorageHashMap<AccountId,Refugee>
+        refugees: StorageHashMap<AccountId, Refugee>,
     }
 
     /// Emitted whenever an account is being registered.
@@ -92,7 +92,10 @@ mod refugee_registry {
     }
 
     #[derive(Debug, PartialEq, Eq, Clone, Copy, scale::Encode, scale::Decode)]
-    #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
+    #[cfg_attr(
+        feature = "std",
+        derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout)
+    )]
     pub enum Category {
         Government,
         Employer,
@@ -101,15 +104,19 @@ mod refugee_registry {
     }
 
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, scale::Encode, scale::Decode)]
-    #[cfg_attr(feature = "std",derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout))]
+    #[cfg_attr(
+        feature = "std",
+        derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout)
+    )]
     pub struct Account {
-        account_id: AccountId,
         category: Category,
     }
-    
 
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, scale::Encode, scale::Decode)]
-    #[cfg_attr(feature = "std",derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout))]
+    #[cfg_attr(
+        feature = "std",
+        derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout)
+    )]
     pub struct Refugee {
         skill: String,
         age: u32,
@@ -122,14 +129,20 @@ mod refugee_registry {
     }
 
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, scale::Encode, scale::Decode)]
-    #[cfg_attr(feature = "std",derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout))]
+    #[cfg_attr(
+        feature = "std",
+        derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout)
+    )]
     pub struct Government {
         name: String,
         country: String,
     }
 
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, scale::Encode, scale::Decode)]
-    #[cfg_attr(feature = "std",derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout))]
+    #[cfg_attr(
+        feature = "std",
+        derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout)
+    )]
     pub struct Employer {
         company_name: String,
         registration_number: String,
@@ -139,7 +152,10 @@ mod refugee_registry {
     }
 
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, scale::Encode, scale::Decode)]
-    #[cfg_attr(feature = "std",derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout))]
+    #[cfg_attr(
+        feature = "std",
+        derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout)
+    )]
     pub struct JobContract {
         position: String,
         keyword: String,
@@ -159,17 +175,15 @@ mod refugee_registry {
                 employers: StorageHashMap::new(),
                 job_contracts: StorageHashMap::new(),
                 refugees: StorageHashMap::new(),
-
             }
         }
 
         #[ink(message)]
         pub fn register_account(&mut self, account_id: AccountId, category: Category) {
-            let account = Account {
-                account_id: account_id,
-                category: category,
-            };
-            self.accounts.insert(self.env().caller(), &account);
+            let account = Account { category: category };
+            let caller = Self::env().caller();
+            self.accounts.insert(caller, &account);
+            // Emit an event.
             self.env().emit_event(AccountCreated {
                 account_id,
                 category,
@@ -189,7 +203,10 @@ mod refugee_registry {
             country_of_asylum: String,
             resume_url: String,
         ) {
-            assert_eq!(self.accounts.get(&account_id).unwrap().category, Category::Refugee);
+            assert_eq!(
+                self.accounts.get(&account_id).unwrap().category,
+                Category::Refugee
+            );
             let refugee = Refugee {
                 skill,
                 age,
@@ -200,7 +217,7 @@ mod refugee_registry {
                 country_of_asylum,
                 resume_url,
             };
-            self.refugees.insert(self.env().caller(), &refugee);
+            self.refugees.insert(account_id, &refugee);
             self.env().emit_event(RefugeeCreated {
                 account_id,
                 country_of_origin,
@@ -209,48 +226,30 @@ mod refugee_registry {
         }
 
         #[ink(message)]
-        pub fn get_refugees(&self) -> Vec<(AccountId, Refugee)> {
-            self.refugees
-                .iter()
-                .filter_map(|(id, account)| {
-                    if account.category == Category::Refugee {
-                        Some((*id, self.get_refugee(*id).unwrap()))
-                    } else {
-                        None
-                    }
-                })
-                .collect()
-        }
+        pub fn get_refugee_by_id(&self, account_id: AccountId) -> Option<Refugee> {
+            let single_refugee = self
+                .refugees
+                .get(&account_id)
+                .expect("Oh no, No refugee found");
 
-        #[ink(message)]
-        pub fn get_refugee(&self, account_id: AccountId) -> Option<Refugee> {
-            if let Some(account) = self.accounts.get(&account_id) {
-                if account.category == Category::Refugee {
-                    // Use `self.accounts` instead of `self.refugees`
-                    return Some(self.accounts.get(&account_id).unwrap().clone());
-                }
-            }
-            None
+            Some(single_refugee)
         }
 
         #[ink(message)]
         pub fn update_refugee_resume_url(&mut self, account_id: AccountId, new_url: String) {
-            assert_eq!(self.accounts.get(&account_id).unwrap().category, Category::Refugee);
-            if let Some(mut refugee) = self.accounts.get_mut(&account_id) {
-                // Use `self.accounts` instead of `self.refugees`
+            if let Some(ref mut refugee) = self.refugees.get(&account_id) {
                 refugee.resume_url = new_url;
-                self.env().emit_event(RefugeeProfileUpdated {
-                    account_id,
-                    resume_url: new_url,
-                });
             }
         }
 
+
         #[ink(message)]
         pub fn toggle_refugee_status(&mut self, account_id: AccountId, new_status: bool) {
-            assert_eq!(self.accounts.get(&account_id).unwrap().category, Category::Government);
-            if let Some(mut refugee) = self.accounts.get_mut(&account_id) {
-                // Use `self.accounts` instead of `self.refugees`
+            assert_eq!(
+                self.accounts.get(&account_id).unwrap().category,
+                Category::Government
+            );
+            if let Some(mut refugee) = self.refugees.get(&account_id) {
                 refugee.status = new_status;
                 self.env().emit_event(RefugeeStatusToggled {
                     account_id,
@@ -260,9 +259,17 @@ mod refugee_registry {
         }
 
         #[ink(message)]
-        pub fn register_government(&mut self, account_id: AccountId, name: String, country: String) {
-            self.accounts.insert(account_id, Account { category: Category::Government });
-            self.governments.insert(account_id, Government { name, country });
+        pub fn register_government(
+            &mut self,
+            account_id: AccountId,
+            name: String,
+            country: String,
+        ) {
+            let government = Government {
+                name,
+                country,
+            };
+            self.governments.insert(account_id, &government);
             self.env().emit_event(GovernmentRegistered {
                 account_id,
                 country,
@@ -278,17 +285,14 @@ mod refugee_registry {
             website: String,
             contact_email: String,
         ) {
-            self.accounts.insert(account_id, Account { category: Category::Employer });
-            self.employers.insert(
-                account_id,
-                Employer {
-                    company_name,
-                    registration_number,
-                    website,
-                    contact_email,
-                    status: false,
-                },
-            );
+            let employer = Employer {
+                company_name,
+                registration_number,
+                website,
+                contact_email,
+                status: false,
+            };
+            self.employers.insert(account_id, &employer);
             self.env().emit_event(EmployerRegistered {
                 account_id,
                 company_name,
@@ -297,8 +301,11 @@ mod refugee_registry {
 
         #[ink(message)]
         pub fn toggle_employer_status(&mut self, account_id: AccountId, new_status: bool) -> bool {
-            assert_eq!(self.accounts.get(&account_id).unwrap().category, Category::Zealix);
-            if let Some(employer) = self.employers.get_mut(&account_id) {
+            assert_eq!(
+                self.accounts.get(&account_id).unwrap().category,
+                Category::Zealix
+            );
+            if let Some(employer) = self.employers.get(&account_id) {
                 employer.status = new_status;
                 self.env().emit_event(EmployerStatusToggled {
                     account_id,
@@ -319,19 +326,22 @@ mod refugee_registry {
             conditions: String,
             hired_refugee: AccountId,
         ) {
-            assert_eq!(self.accounts.get(&hired_refugee).unwrap().category, Category::Refugee);
             let employer_id = self.env().caller();
-            self.job_contracts.insert(
-                employer_id,
-                JobContract {
-                    position,
-                    keyword,
-                    pay,
-                    hours,
-                    conditions,
-                    hired_refugee,
-                },
+
+            assert_eq!(
+                self.accounts.get(&employer_id).unwrap().category,
+                Category::Employer
             );
+            let employer_id = self.env().caller();
+            let job_contract =JobContract {
+                position,
+                keyword,
+                pay,
+                hours,
+                conditions,
+                hired_refugee,
+            };
+            self.job_contracts.insert(employer_id, &job_contract);
             self.env().emit_event(JobContractRegistered {
                 employer_id,
                 position,
