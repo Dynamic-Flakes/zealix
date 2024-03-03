@@ -2,7 +2,7 @@
 
 #[ink::contract]
 mod refugee_registry {
-    use ink::storage::{traits::*, Mapping as StorageHashMap};
+    use ink::storage::{ Mapping as StorageHashMap};
     use ink_prelude::vec::Vec;
 
     #[ink(storage)]
@@ -12,6 +12,7 @@ mod refugee_registry {
         governments: StorageHashMap<AccountId, Government>,
         employers: StorageHashMap<AccountId, Employer>,
         job_contracts: StorageHashMap<AccountId, JobContract>,
+        refugees: StorageHashMap<AccountId,Refugee>
     }
 
     /// Emitted whenever an account is being registered.
@@ -102,8 +103,10 @@ mod refugee_registry {
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, scale::Encode, scale::Decode)]
     #[cfg_attr(feature = "std",derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout))]
     pub struct Account {
+        account_id: AccountId,
         category: Category,
     }
+    
 
     #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, scale::Encode, scale::Decode)]
     #[cfg_attr(feature = "std",derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout))]
@@ -155,12 +158,18 @@ mod refugee_registry {
                 governments: StorageHashMap::new(),
                 employers: StorageHashMap::new(),
                 job_contracts: StorageHashMap::new(),
+                refugees: StorageHashMap::new(),
+
             }
         }
 
         #[ink(message)]
         pub fn register_account(&mut self, account_id: AccountId, category: Category) {
-            self.accounts.insert(account_id, Account { category });
+            let account = Account {
+                account_id: account_id,
+                category: category,
+            };
+            self.accounts.insert(self.env().caller(), &account);
             self.env().emit_event(AccountCreated {
                 account_id,
                 category,
@@ -191,7 +200,7 @@ mod refugee_registry {
                 country_of_asylum,
                 resume_url,
             };
-            self.accounts.insert(account_id, Account { category: Category::Refugee });
+            self.refugees.insert(self.env().caller(), &refugee);
             self.env().emit_event(RefugeeCreated {
                 account_id,
                 country_of_origin,
@@ -201,7 +210,7 @@ mod refugee_registry {
 
         #[ink(message)]
         pub fn get_refugees(&self) -> Vec<(AccountId, Refugee)> {
-            self.accounts
+            self.refugees
                 .iter()
                 .filter_map(|(id, account)| {
                     if account.category == Category::Refugee {
