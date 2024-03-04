@@ -243,6 +243,8 @@ mod refugee_registry {
            let mut all_refugees = Vec::new();
            for refugee_account_id in &self.refugees_accounts {
                if let Some(refugee) = self.refugees.get(refugee_account_id) {
+                debug_println!("Found Refugee {:?}", refugee); // Use a formatting specifier
+
                    all_refugees.push(refugee.clone());
                }
            }
@@ -260,7 +262,7 @@ mod refugee_registry {
         }
 
         #[ink(message)]
-        pub fn deleteRefugee(&self ,account_id: AccountId){
+        pub fn delete_refugee(&self ,account_id: AccountId){
             self.refugees.remove(account_id);
             self.env().emit_event(RefugeeDeleted{account_id})
  
@@ -268,8 +270,16 @@ mod refugee_registry {
 
         #[ink(message)]
         pub fn update_refugee_resume_url(&mut self, account_id: AccountId, new_url: String) {
-            if let Some(ref mut refugee) = self.refugees.get(&account_id) {
-                refugee.resume_url = new_url;
+            if let Some(refugee) = self.refugees.get_mut(&account_id) {
+                let caller_category = self.accounts.get(&self.env().caller()).unwrap().category;
+                if caller_category == Category::Refugee {
+                    refugee.resume_url = new_url.clone();
+                    // Emit an event
+                    self.env().emit_event(RefugeeProfileUpdated {
+                        account_id,
+                        resume_url: new_url,
+                    });
+                }
             }
         }
 
@@ -339,6 +349,7 @@ mod refugee_registry {
             );
             if let Some(mut employer) = self.employers.get(&account_id) {
                 employer.status = new_status;
+                debug_println!("Updated Employer {:?}", employer); // Use a formatting specifier
                 self.env().emit_event(EmployerStatusToggled {
                     account_id,
                     new_status,
@@ -434,39 +445,69 @@ mod refugee_registry {
             assert_eq!(refugee.country_of_origin, country_of_origin);
             assert_eq!(refugee.country_of_asylum, country_of_asylum);
         }
+
+        #[ink::test]
+        fn test_toggle_refugee_status() {
+            let mut contract = RefugeeRegistry::new();
+            let account_id = AccountId::from([1; 32]);
+            let initial_status = true;
+            let new_status = false;
     
+            contract.register_account(account_id, Category::Government);
+            contract.register_refugee(
+                account_id,
+                String::from("Coding"),
+                25,
+                initial_status,
+                String::from("Passport"),
+                String::from("123456"),
+                String::from("Country1"),
+                String::from("Country2"),
+                String::from("example.com/resume"),
+            );
+    
+            contract.toggle_refugee_status(account_id, new_status);
+            let refugee = contract.get_refugee_by_id(account_id).unwrap();
+            assert_eq!(refugee.status, new_status);
+        }
+
         #[ink::test]
         fn test_get_all_refugee_profiles() {
             let mut contract = RefugeeRegistry::new();
-            let account_id1 = AccountId::from([1; 32]);
-            let account_id2 = AccountId::from([2; 32]);
-            contract.register_account(account_id1, Category::Refugee);
+            let account_id_1 = AccountId::from([1; 32]);
+            let account_id_2 = AccountId::from([2; 32]);
+            let skill_1 = "Programming".to_string();
+            let skill_2 = "Design".to_string();
+            contract.register_account(account_id_1, Category::Refugee);
+            contract.register_account(account_id_2, Category::Refugee);
             contract.register_refugee(
-                account_id1,
-                String::from("Skill1"),
+                account_id_1,
+                skill_1.clone(),
                 30,
                 true,
-                String::from("ID Type1"),
-                String::from("ID Number1"),
-                String::from("Country1"),
-                String::from("Country2"),
-                String::from("Resume URL1"),
+                "Passport".to_string(),
+                "123456789".to_string(),
+                "Country A".to_string(),
+                "Country B".to_string(),
+                "https://example.com/resume1".to_string(),
             );
-            contract.register_account(account_id2, Category::Refugee);
             contract.register_refugee(
-                account_id2,
-                String::from("Skill2"),
+                account_id_2,
+                skill_2.clone(),
                 25,
                 false,
-                String::from("ID Type2"),
-                String::from("ID Number2"),
-                String::from("Country3"),
-                String::from("Country4"),
-                String::from("Resume URL2"),
+                "ID Card".to_string(),
+                "987654321".to_string(),
+                "Country C".to_string(),
+                "Country D".to_string(),
+                "https://example.com/resume2".to_string(),
             );
-            
             let all_refugees = contract.get_all_refugee_profiles();
+            debug_println!("Found Refugee {:?}", all_refugees); // Use a formatting specifier
+
             assert_eq!(all_refugees.len(), 2);
+            assert_eq!(all_refugees[0].skill, skill_1);
+            assert_eq!(all_refugees[1].skill, skill_2);
         }
     
         #[ink::test]
@@ -534,17 +575,32 @@ mod refugee_registry {
         fn test_toggle_employer_status() {
             let mut contract = RefugeeRegistry::new();
             let account_id = AccountId::from([1; 32]);
+            let initial_status = false; // Set initial status to false
+            let new_status = true;
+        
             contract.register_account(account_id, Category::Zealix);
             contract.register_employer(
                 account_id,
-                String::from("Company"),
-                String::from("Reg Number"),
-                String::from("Website"),
-                String::from("Email"),
+                String::from("Company1"),
+                String::from("123456"),
+                String::from("example.com"),
+                String::from("info@example.com"),
             );
-            assert_eq!(contract.toggle_employer_status(account_id, true), true);
+        
+            debug_println!("Calling account {:?}", account_id); // Use a formatting specifier
+
+            // Ensure the initial status is set correctly
             let employer = contract.employers.get(&account_id).unwrap();
-            assert_eq!(employer.status, true);
+            debug_println!("Found Employer {:?}", employer); // Use a formatting specifier
+            assert_eq!(employer.status, initial_status);
+        
+            let result = contract.toggle_employer_status(account_id, new_status);
+            debug_println!("Toggle Employer {:?}", employer); // Use a formatting specifier
+            assert_eq!(result, true);
+        
+            let employer = contract.employers.get(&account_id).unwrap();
+            debug_println!("Found Employer after toggle {:?}", employer); // Use a formatting specifier
+            assert_eq!(employer.status, new_status);
         }
     
         #[ink::test]
