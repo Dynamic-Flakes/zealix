@@ -1,7 +1,7 @@
 [package]
-name = "greeter"
+name = "zealix"
 version = "0.0.1"
-authors = ["Scio Labs <hello@scio.xyz>"]
+authors = ["Sunday Aroh <asmelitus@gmail.com>"]
 edition = "2021"
 
 [dependencies]
