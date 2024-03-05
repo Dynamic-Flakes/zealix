@@ -19,7 +19,7 @@ const config: Config = {
         mono: ['var(--font-geist-mono)', ...defaultTheme.fontFamily.mono],
       },
       colors: {
-        border: 'hsl(var(--border) / <alpha-value>)',
+        border: 'hsl(#65716f / <alpha-value>)',
         input: 'hsl(var(--input) / <alpha-value>)',
         ring: 'hsl(var(--ring) / <alpha-value>)',
         background: 'hsl(var(--background) / <alpha-value>)',
