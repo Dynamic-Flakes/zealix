@@ -1,14 +1,14 @@
 #![cfg_attr(not(feature = "std"), no_std, no_main)]
 
 #[ink::contract]
-mod refugee_registry {
+mod zealix {
     use ink::storage::{Mapping as StorageHashMap};
     use ink::env::debug_println;
     use ink::prelude::string::String;
     use ink::prelude::vec::Vec;
 
     #[ink(storage)]
-    pub struct RefugeeRegistry {
+    pub struct Zealix {
         /// Mapping from owner to an account.
         accounts: StorageHashMap<AccountId, Account>,
         governments: StorageHashMap<AccountId, Government>,
@@ -173,7 +173,7 @@ mod refugee_registry {
         hired_refugee: AccountId,
     }
 
-    impl RefugeeRegistry {
+    impl Zealix {
         /// Creates a refugee registry contract.
         #[ink(constructor)]
         pub fn new() -> Self {
@@ -414,7 +414,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_register_account() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             contract.register_account(account_id, Category::Refugee);
             assert_eq!(
@@ -425,7 +425,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_register_refugee() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             let country_of_origin = String::from("Country1");
             let country_of_asylum = String::from("Country2");
@@ -448,7 +448,7 @@ mod refugee_registry {
 
         #[ink::test]
         fn test_toggle_refugee_status() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             let initial_status = true;
             let new_status = false;
@@ -473,7 +473,7 @@ mod refugee_registry {
 
         #[ink::test]
         fn test_get_all_refugee_profiles() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id_1 = AccountId::from([1; 32]);
             let account_id_2 = AccountId::from([2; 32]);
             let skill_1 = "Programming".to_string();
@@ -512,7 +512,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_get_refugee_by_id() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             let skill = String::from("Skill");
             let age = 30;
@@ -547,7 +547,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_register_government() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             let country = String::from("Country");
             contract.register_government(account_id, String::from("Name"), country.clone());
@@ -557,7 +557,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_register_employer() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             let company_name = String::from("Company");
             contract.register_employer(
@@ -573,7 +573,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_toggle_employer_status() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             let initial_status = false; // Set initial status to false
             let new_status = true;
@@ -605,7 +605,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_register_job_contract() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let employer_id = AccountId::from([1; 32]);
             let hired_refugee = AccountId::from([2; 32]);
             let position = String::from("Position");

@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x2ae28fa079e8fcead77a7619c8e843f9a2360282f44c08b33a2834fb99c67b53",
+    "hash": "0x090032c6e18f3a75746f2ede1cdd21432ffbc5639b48771b5a2e6e2e3a3e500f",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.76.0",
     "build_info": {
@@ -882,7 +882,7 @@
                         {
                           "layout": {
                             "enum": {
-                              "dispatchKey": "0xe7d10615",
+                              "dispatchKey": "0x330ba4c0",
                               "name": "Category",
                               "variants": {
                                 "0": {
@@ -910,7 +910,7 @@
                       "name": "Account"
                     }
                   },
-                  "root_key": "0xe7d10615"
+                  "root_key": "0x330ba4c0"
                 }
               },
               "name": "accounts"
@@ -924,7 +924,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x67132bad",
+                              "key": "0x131aa7e7",
                               "ty": 0
                             }
                           },
@@ -933,7 +933,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x67132bad",
+                              "key": "0x131aa7e7",
                               "ty": 0
                             }
                           },
@@ -943,7 +943,7 @@
                       "name": "Government"
                     }
                   },
-                  "root_key": "0x67132bad"
+                  "root_key": "0x131aa7e7"
                 }
               },
               "name": "governments"
@@ -957,7 +957,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9017e4df",
+                              "key": "0xb729a7ef",
                               "ty": 0
                             }
                           },
@@ -966,7 +966,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9017e4df",
+                              "key": "0xb729a7ef",
                               "ty": 0
                             }
                           },
@@ -975,7 +975,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9017e4df",
+                              "key": "0xb729a7ef",
                               "ty": 0
                             }
                           },
@@ -984,7 +984,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9017e4df",
+                              "key": "0xb729a7ef",
                               "ty": 0
                             }
                           },
@@ -993,7 +993,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x9017e4df",
+                              "key": "0xb729a7ef",
                               "ty": 1
                             }
                           },
@@ -1003,7 +1003,7 @@
                       "name": "Employer"
                     }
                   },
-                  "root_key": "0x9017e4df"
+                  "root_key": "0xb729a7ef"
                 }
               },
               "name": "employers"
@@ -1017,7 +1017,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x46f4c4f6",
+                              "key": "0xbf30b063",
                               "ty": 0
                             }
                           },
@@ -1026,7 +1026,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x46f4c4f6",
+                              "key": "0xbf30b063",
                               "ty": 0
                             }
                           },
@@ -1035,7 +1035,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x46f4c4f6",
+                              "key": "0xbf30b063",
                               "ty": 2
                             }
                           },
@@ -1044,7 +1044,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x46f4c4f6",
+                              "key": "0xbf30b063",
                               "ty": 2
                             }
                           },
@@ -1053,7 +1053,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x46f4c4f6",
+                              "key": "0xbf30b063",
                               "ty": 0
                             }
                           },
@@ -1062,7 +1062,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x46f4c4f6",
+                              "key": "0xbf30b063",
                               "ty": 3
                             }
                           },
@@ -1072,7 +1072,7 @@
                       "name": "JobContract"
                     }
                   },
-                  "root_key": "0x46f4c4f6"
+                  "root_key": "0xbf30b063"
                 }
               },
               "name": "job_contracts"
@@ -1086,7 +1086,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x855c4f7b",
+                              "key": "0x333254ed",
                               "ty": 0
                             }
                           },
@@ -1095,7 +1095,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x855c4f7b",
+                              "key": "0x333254ed",
                               "ty": 2
                             }
                           },
@@ -1104,7 +1104,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x855c4f7b",
+                              "key": "0x333254ed",
                               "ty": 1
                             }
                           },
@@ -1113,7 +1113,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x855c4f7b",
+                              "key": "0x333254ed",
                               "ty": 0
                             }
                           },
@@ -1122,7 +1122,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x855c4f7b",
+                              "key": "0x333254ed",
                               "ty": 0
                             }
                           },
@@ -1131,7 +1131,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x855c4f7b",
+                              "key": "0x333254ed",
                               "ty": 0
                             }
                           },
@@ -1140,7 +1140,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x855c4f7b",
+                              "key": "0x333254ed",
                               "ty": 0
                             }
                           },
@@ -1149,7 +1149,7 @@
                         {
                           "layout": {
                             "leaf": {
-                              "key": "0x855c4f7b",
+                              "key": "0x333254ed",
                               "ty": 0
                             }
                           },
@@ -1159,7 +1159,7 @@
                       "name": "Refugee"
                     }
                   },
-                  "root_key": "0x855c4f7b"
+                  "root_key": "0x333254ed"
                 }
               },
               "name": "refugees"
@@ -1174,7 +1174,7 @@
               "name": "refugees_accounts"
             }
           ],
-          "name": "RefugeeRegistry"
+          "name": "Zealix"
         }
       },
       "root_key": "0x00000000"
@@ -1350,7 +1350,7 @@
         },
         "path": [
           "zealix",
-          "refugee_registry",
+          "zealix",
           "Category"
         ]
       }
@@ -1458,7 +1458,7 @@
         },
         "path": [
           "zealix",
-          "refugee_registry",
+          "zealix",
           "Refugee"
         ]
       }
