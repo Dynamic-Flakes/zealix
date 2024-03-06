@@ -6,7 +6,6 @@ edition = "2021"
 
 [dependencies]
 ink = { version = "4.3.0", default-features = false }
-ink_prelude = "4.3.0"
 
 scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
 scale-info = { version = "2", default-features = false, features = ["derive"], optional = true }
@@ -18,3 +17,17 @@ path = "lib.rs"
 default = ["std"]
 std = ["ink/std", "scale/std", "scale-info/std"]
 ink-as-dependency = []
+
+
+[build.env]
+passthrough = [
+    "RUST_BACKTRACE=1",
+    "RUST_LOG",
+    "TRAVIS",
+]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"

@@ -11,5 +11,5 @@ contracts=($(find $CONTRACTS_DIR -maxdepth 1 -type d -exec test -f {}/Cargo.toml
 for i in "${contracts[@]}"
 do
   echo -e "\nTesting '$CONTRACTS_DIR/$i/Cargo.toml'…"
-  cargo test --manifest-path $CONTRACTS_DIR/$i/Cargo.toml
+  cargo +nightly test --manifest-path $CONTRACTS_DIR/$i/Cargo.toml
 done

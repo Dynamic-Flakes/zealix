@@ -1,11 +1,11 @@
-#![cfg_attr(not(feature = "std"), no_std)]
+#![cfg_attr(not(feature = "std"), no_std, no_main)]
 
 #[ink::contract]
 mod refugee_registry {
-    // use ink::storage::Mapping as StorageHashMap;
-    use ink_prelude::vec::Vec;
-    use ink_storage::{Mapping as StorageHashMap};
+    use ink::storage::{Mapping as StorageHashMap};
     use ink::env::debug_println;
+    use ink::prelude::string::String;
+    use ink::prelude::vec::Vec;
 
     #[ink(storage)]
     pub struct RefugeeRegistry {
@@ -270,7 +270,7 @@ mod refugee_registry {
 
         #[ink(message)]
         pub fn update_refugee_resume_url(&mut self, account_id: AccountId, new_url: String) {
-            if let Some(refugee) = self.refugees.get_mut(&account_id) {
+            if let Some(mut refugee) = self.refugees.get(&account_id) {
                 let caller_category = self.accounts.get(&self.env().caller()).unwrap().category;
                 if caller_category == Category::Refugee {
                     refugee.resume_url = new_url.clone();
