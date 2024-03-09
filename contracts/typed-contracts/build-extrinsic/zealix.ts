@@ -196,4 +196,16 @@ export default class Methods {
 		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "registerJobContract", [position, keyword, pay, hours, conditions, hiredRefugee], __options);
 	}
 
+	/**
+	 * getMatchingRefugees
+	 *
+	 * @param { string } keyword,
+	*/
+	"getMatchingRefugees" (
+		keyword: string,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "getMatchingRefugees", [keyword], __options);
+	}
+
 }

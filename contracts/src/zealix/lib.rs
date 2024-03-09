@@ -402,18 +402,21 @@ mod zealix {
             });
         }
 
-        // #[ink(message)]
-        // pub fn match_refugee_skill(&self, keywords: Vec<String>) -> Vec<Refugee> {
-        //     self.refugees_accounts
-        //         .iter()
-        //         .filter_map(|account_id| {
-        //             self.refugees
-        //                 .get(account_id)
-        //                 .filter(|refugee| keywords.iter().any(|keyword| refugee.skill.contains(keyword)))
-        //                 .cloned()
-        //         })
-        //         .collect()
-        // }
+        #[ink(message)]
+        pub fn get_matching_refugees(&self, keyword: String) -> Vec<Refugee> {
+            self.refugees_accounts
+                .iter()
+                .filter_map(|account_id| {
+                    self.refugees.get(account_id).and_then(|refugee| {
+                        if refugee.skill == keyword {
+                            Some(refugee)
+                        } else {
+                            None
+                        }
+                    })
+                })
+                .collect()
+        }
     
     }
 
@@ -630,6 +633,65 @@ mod zealix {
             );
             let job_contract = contract.job_contracts.get(&employer_id).unwrap();
             assert_eq!(job_contract.position, position);
+        }
+
+        #[ink::test]
+        fn test_get_matching_refugees() {
+            // Arrange
+            let mut contract = Zealix::new();
+            let keyword = "Programming".to_string();
+            let account_id_1 = AccountId::from([1; 32]);
+            let account_id_2 = AccountId::from([2; 32]);
+            let account_id_3 = AccountId::from([3; 32]);
+    
+            let refugee_1 = Refugee {
+                skill: "Programming".to_string(),
+                age: 30,
+                status: true,
+                id_type: "Passport".to_string(),
+                gov_id_number: "123456789".to_string(),
+                country_of_origin: "Country A".to_string(),
+                country_of_asylum: "Country B".to_string(),
+                resume_url: "https://example.com/resume1".to_string(),
+            };
+    
+            let refugee_2 = Refugee {
+                skill: "Design".to_string(),
+                age: 25,
+                status: false,
+                id_type: "ID Card".to_string(),
+                gov_id_number: "987654321".to_string(),
+                country_of_origin: "Country C".to_string(),
+                country_of_asylum: "Country D".to_string(),
+                resume_url: "https://example.com/resume2".to_string(),
+            };
+    
+            let refugee_3 = Refugee {
+                skill: "Programming".to_string(),
+                age: 28,
+                status: true,
+                id_type: "Passport".to_string(),
+                gov_id_number: "987654321".to_string(),
+                country_of_origin: "Country E".to_string(),
+                country_of_asylum: "Country F".to_string(),
+                resume_url: "https://example.com/resume3".to_string(),
+            };
+    
+            contract.refugees.insert(account_id_1, &refugee_1);
+            contract.refugees.insert(account_id_2, &refugee_2);
+            contract.refugees.insert(account_id_3, &refugee_3);
+    
+            contract.refugees_accounts.push(account_id_1);
+            contract.refugees_accounts.push(account_id_2);
+            contract.refugees_accounts.push(account_id_3);
+    
+            // Act
+            let matching_refugees = contract.get_matching_refugees(keyword.clone());
+    
+            // Assert
+            assert_eq!(matching_refugees.len(), 2); // There are two refugees with skill "Programming"
+            assert!(matching_refugees.contains(&&refugee_1)); // refugee_1 skill matches the keyword
+            assert!(matching_refugees.contains(&&refugee_3)); // refugee_3 skill matches the keyword
         }
     }
     

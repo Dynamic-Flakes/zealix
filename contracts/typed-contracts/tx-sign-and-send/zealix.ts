@@ -226,4 +226,18 @@ export default class Methods {
 		}, [position, keyword, pay, hours, conditions, hiredRefugee], __options);
 	}
 
+	/**
+	* getMatchingRefugees
+	*
+	* @param { string } keyword,
+	*/
+	"getMatchingRefugees" (
+		keyword: string,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "getMatchingRefugees", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [keyword], __options);
+	}
+
 }

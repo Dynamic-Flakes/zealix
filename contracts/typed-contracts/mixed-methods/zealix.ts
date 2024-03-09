@@ -240,4 +240,17 @@ export default class Methods {
 		}, [position, keyword, pay, hours, conditions, hiredRefugee], __options);
 	}
 
+	/**
+	* getMatchingRefugees
+	*
+	* @param { string } keyword,
+	* @returns { Result<Array<ReturnTypes.Refugee>, ReturnTypes.LangError> }
+	*/
+	"getMatchingRefugees" (
+		keyword: string,
+		__options: GasLimit,
+	): Promise< QueryReturnType< Result<Array<ReturnTypes.Refugee>, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "getMatchingRefugees", [keyword], __options, (result) => { return handleReturnType(result, getTypeDescription(11, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
 }
