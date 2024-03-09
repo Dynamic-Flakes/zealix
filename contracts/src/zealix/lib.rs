@@ -191,8 +191,7 @@ mod zealix {
         #[ink(message)]
         pub fn register_account(&mut self, account_id: AccountId, category: Category) {
             let account = Account { category: category };
-            let caller = Self::env().caller();
-            self.accounts.insert(caller, &account);
+            self.accounts.insert(account_id, &account);
             // Emit an event.
             self.env().emit_event(AccountCreated {
                 account_id,
@@ -273,7 +272,10 @@ mod zealix {
             if let Some(mut refugee) = self.refugees.get(&account_id) {
                 let caller_category = self.accounts.get(&self.env().caller()).unwrap().category;
                 if caller_category == Category::Refugee {
+
                     refugee.resume_url = new_url.clone();
+                    // Update the value at the same key
+                    self.refugees.insert(account_id, &refugee);
                     // Emit an event
                     self.env().emit_event(RefugeeProfileUpdated {
                         account_id,
@@ -286,12 +288,15 @@ mod zealix {
 
         #[ink(message)]
         pub fn toggle_refugee_status(&mut self, account_id: AccountId, new_status: bool) {
+            let caller = Self::env().caller();
             assert_eq!(
-                self.accounts.get(&account_id).unwrap().category,
+                self.accounts.get(&caller).unwrap().category,
                 Category::Government
             );
             if let Some(mut refugee) = self.refugees.get(&account_id) {
                 refugee.status = new_status;
+                // Update the value at the same key
+                self.refugees.insert(account_id, &refugee);
                 self.env().emit_event(RefugeeStatusToggled {
                     account_id,
                     new_status,
@@ -343,12 +348,17 @@ mod zealix {
 
         #[ink(message)]
         pub fn toggle_employer_status(&mut self, account_id: AccountId, new_status: bool) -> bool {
+            let caller = Self::env().caller();
             assert_eq!(
-                self.accounts.get(&account_id).unwrap().category,
-                Category::Zealix
+                self.accounts.get(&caller).unwrap().category,
+                Category::Zealix,
+                "Only Zealix is allowed to call this function"
+
             );
+            
             if let Some(mut employer) = self.employers.get(&account_id) {
                 employer.status = new_status;
+                self.employers.insert(account_id, &employer);
                 debug_println!("Updated Employer {:?}", employer); // Use a formatting specifier
                 self.env().emit_event(EmployerStatusToggled {
                     account_id,
@@ -450,8 +460,8 @@ mod zealix {
         fn test_toggle_refugee_status() {
             let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
-            let initial_status = true;
-            let new_status = false;
+            let initial_status = false;
+            let new_status = true;
     
             contract.register_account(account_id, Category::Government);
             contract.register_refugee(
