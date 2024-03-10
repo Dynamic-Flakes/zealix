@@ -158,34 +158,6 @@ Adding custom scripts is useful to interact with your contracts or test certain 
 
 For general scripts, the same environment variable initialization & configuration applies as described below in the [Deployment](#deployment) section (e.g. to change the target network).
 
-## The Stack 🥞
-
-<details>
-<summary><strong>The Stack in Detail</strong></summary>
-
-- Monorepo Workspace with `contracts/` and `frontend/` directories as packages.
-- Package Manager: `pnpm` or `yarn@stable` (Read more in the [FAQs](#faqs--troubleshooting) section below)
-- Smart Contract Development: Rust, ink!, `cargo-contract`, `substrate-contracts-node`
-- Frontend: Next.js (app-dir), React, TypeScript
-  - Contract Interactions: `polkadot-js`, [`useInkathon`](https://github.com/scio-labs/use-inkathon) React Hooks & Utility Library (alternatively: [`useInk`](https://use.ink/frontend/getting-started))
-  - Styling: `shadcn/ui`, `tailwindcss`
-  - Linting & Formatting: `eslint`, `prettier`, `simple-git-hooks`, `lint-staged`
-- Type-safe contract generation via [`typechain-polkadot`](https://github.com/Brushfam/typechain-polkadot)
-
-<small>Styling, linting, and formatting libraries can be fully dropped or replaced with alternatives.</small>
-
-</details>
-
-![inkathon Stack Diagram](inkathon-stack-diagram.png)
-
-## Live Examples 🌐
-
-Below you find live examples that use this boilerplate or have a similar setup inspired by it:
-
-- [inkathon.xyz](https://inkathon.xyz) – Live demo deployment of this boilerplate
-- [AZERO.ID](https://azero.id) – Domain Name Service for Aleph Zero and beyond
-- Multiple hackathon projects from [ETHWarsaw](https://ethwarsaw-2023.devpost.com/submissions/), [HackOnChain](https://www.hackonchain.xyz/), [ETHDam](https://www.ethdam.com/), and the [Polkadot ink! Hackathon](https://www.encode.club/polkadot-ink-hackathon).
-
 ## Deployment 🚢
 
 Spinning up a deployment via Vercel is pretty straightforward as the necessary settings are already configured in `vercel.json`. If you haven't cloned the repository yet, you can also use the **Deploy** button below to create a new repository from this template.
@@ -193,6 +165,15 @@ Spinning up a deployment via Vercel is pretty straightforward as the necessary s
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fhello-world&env=NEXT_PUBLIC_DEFAULT_CHAIN&envDescription=Insert%20%60alephzero-testnet%60%20or%20%60shibuya%60&envLink=https%3A%2F%2Fgithub.com%2Fscio-labs%2Finkathon%23environment-variables&project-name=inkathon&repository-name=inkathon&redirect-url=https%3A%2F%2Fgithub.com%2Fscio-labs%2Finkathon&demo-url=https%3A%2F%2Finkathon.xyz)
 
 Alternatively, you can also use the provided Dockerfiles to deploy to any hosting provider of your choice. Read more [here](https://github.com/scio-labs/inkathon/pull/50#issue-2041934251).
+
+
+## Live Demo 🌐
+
+Below you find live Demo for Zealix
+
+- [inkathon.xyz](https://inkathon.xyz) – Live demo deployment of this boilerplate
+
+
 
 ### Environment Variables
 
@@ -218,7 +199,7 @@ If your network is not provided by the `use-inkathon` library, you can add it ma
 
 ### Contract Deployment
 
-In the [Getting Started](#getting-started) section above, we've already deployed the sample `Greeter` contract on a local node. To target a live network, we can use the `CHAIN` environment variable when running the `deploy` script.
+In the [Getting Started](#getting-started) section above, we've already deployed the sample `Zealix` contract on a local node. To target a live network, we can use the `CHAIN` environment variable when running the `deploy` script.
 
 ```bash
 CHAIN=alephzero-testnet pnpm run deploy
