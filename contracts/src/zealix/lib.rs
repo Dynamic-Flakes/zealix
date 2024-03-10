@@ -188,6 +188,15 @@ mod zealix {
             }
         }
 
+        // Helper function to check if the caller is of a specific category
+        fn validate_category(&self, category: Category) -> bool {
+            let caller = Self::env().caller();
+            if let Some(account) = self.accounts.get(&caller) {
+                return account.category == category;
+            }
+            false
+        }
+
         #[ink(message)]
         pub fn register_account(&mut self, account_id: AccountId, category: Category) {
             let account = Account { category: category };
@@ -212,11 +221,7 @@ mod zealix {
             country_of_asylum: String,
             resume_url: String,
         ) {
-            assert_eq!(
-                self.accounts.get(&account_id).unwrap().category,
-                Category::Refugee
-            );
-            
+         assert!(self.validate_category(Category::Refugee));
             let refugee = Refugee {
                 skill,
                 age,
@@ -288,11 +293,7 @@ mod zealix {
 
         #[ink(message)]
         pub fn toggle_refugee_status(&mut self, account_id: AccountId, new_status: bool) {
-            let caller = Self::env().caller();
-            assert_eq!(
-                self.accounts.get(&caller).unwrap().category,
-                Category::Government
-            );
+            assert!(self.validate_category(Category::Government));
             if let Some(mut refugee) = self.refugees.get(&account_id) {
                 refugee.status = new_status;
                 // Update the value at the same key
@@ -348,14 +349,7 @@ mod zealix {
 
         #[ink(message)]
         pub fn toggle_employer_status(&mut self, account_id: AccountId, new_status: bool) -> bool {
-            let caller = Self::env().caller();
-            assert_eq!(
-                self.accounts.get(&caller).unwrap().category,
-                Category::Zealix,
-                "Only Zealix is allowed to call this function"
-
-            );
-            
+            assert!(self.validate_category(Category::Zealix));
             if let Some(mut employer) = self.employers.get(&account_id) {
                 employer.status = new_status;
                 self.employers.insert(account_id, &employer);
@@ -380,11 +374,8 @@ mod zealix {
             hired_refugee: AccountId,
         ) {
             let employer_id = self.env().caller();
+            assert!(self.validate_category(Category::Employer));
 
-            assert_eq!(
-                self.accounts.get(&employer_id).unwrap().category,
-                Category::Employer
-            );
             let employer_id = self.env().caller();
             let job_contract =JobContract {
                 position: position.clone(), // Clone the string
@@ -406,16 +397,18 @@ mod zealix {
         pub fn get_matching_refugees(&self, keyword: String) -> Vec<Refugee> {
             self.refugees_accounts
                 .iter()
-                .filter_map(|account_id| {
-                    self.refugees.get(account_id).and_then(|refugee| {
-                        if refugee.skill == keyword {
-                            Some(refugee)
-                        } else {
-                            None
-                        }
-                    })
-                })
+                .filter_map(|account_id| self.get_refugee_if_match(account_id, &keyword))
                 .collect()
+        }
+        
+        fn get_refugee_if_match(&self, account_id: &AccountId, keyword: &str) -> Option<Refugee> {
+            self.refugees.get(account_id).and_then(|refugee| {
+                if refugee.skill == keyword {
+                    Some(refugee.clone())
+                } else {
+                    None
+                }
+            })
         }
     
     }
