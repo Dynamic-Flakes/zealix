@@ -88,7 +88,7 @@ export const GreeterContractInteractions: FC = () => {
   return (
     <>
       <div className="flex max-w-[22rem] grow flex-col gap-4">
-        <h2 className="text-center font-mono text-gray-400">Greeter Smart Contract</h2>
+        <h2 className="zealix-text-wood text-center font-mono">Greeter Smart Contract</h2>
 
         <Form {...form}>
           {/* Fetched Greeting */}
@@ -135,7 +135,7 @@ export const GreeterContractInteractions: FC = () => {
         </Form>
 
         {/* Contract Address */}
-        <p className="text-center font-mono text-xs text-gray-600">
+        <p className="zealix-text-wood text-center font-mono text-xs">
           {contract ? contractAddress : 'Loading…'}
         </p>
       </div>

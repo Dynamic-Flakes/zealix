@@ -64,6 +64,36 @@
     --input: 215 27.9% 16.9%;
     --ring: 263.4 70% 50.4%;
   }
+
+  .zealix {
+    --background: #d6d3c7;
+
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 48 15.46% 80.98%;
+    --primary-foreground: 210 20% 98%;
+
+    --secondary: #181506;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 263.4 70% 50.4%;
+  }
 }
 
 @layer base {
@@ -72,9 +102,47 @@
   }
   html {
     @apply scroll-smooth antialiased;
+    overflow: hidden;
   }
   body {
     @apply bg-background font-sans text-foreground;
     @apply flex h-screen min-h-screen flex-col;
+    overflow: hidden;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.8) 100%),
+      url('/images/z_bg_9.jpg'), url('/images/z_bg_9.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  @keyframes heartbeat {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .heartbeat {
+    animation: heartbeat 1s infinite;
+  }
+
+  .zealix-bg {
+    background-color: #d6d3c7;
+    color: #181506;
+  }
+
+  .zealix-text-brown {
+    color: #181506;
+  }
+  .zealix-text-wood {
+    color: #d6d3c7;
+  }
+  .zealix-border-wood {
+    border-color: #d6d3c7;
   }
 }
