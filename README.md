@@ -14,48 +14,71 @@
 
 **Table of Contents:**
 
-1. [About 📖](#about-)
-2. [Overview 📖](#overview-)
-3. [Getting started 🚀](#getting-started-)
+1. [Overview 📖](#overview-)
+2. [Getting started 🚀](#getting-started-)
    1. [1. Run the frontend](#1-run-the-frontend)
    2. [2. Build \& deploy contracts on a local node](#2-build--deploy-contracts-on-a-local-node)
    3. [3. Connect the frontend to the local node](#3-connect-the-frontend-to-the-local-node)
-4. [Customization 🎨](#customization-)
+3. [Customization 🎨](#customization-)
    1. [1. Project Name](#1-project-name)
    2. [2. Custom Contracts](#2-custom-contracts)
    3. [3. Custom Scripts](#3-custom-scripts)
-5. [The Stack 🥞](#the-stack-)
-6. [Live Examples 🌐](#live-examples-)
-7. [Deployment 🚢](#deployment-)
+4. [The Stack 🥞](#the-stack-)
+5. [Live Examples 🌐](#live-examples-)
+6. [Deployment 🚢](#deployment-)
    1. [Environment Variables](#environment-variables)
    2. [Contract Deployment](#contract-deployment)
-8. [VSCode Setup 🛠](#vscode-setup-)
+7. [VSCode Setup 🛠](#vscode-setup-)
    1. [Workspace](#workspace)
    2. [Plugins](#plugins)
-9. [FAQs \& Troubleshooting 💬](#faqs--troubleshooting-)
+8. [FAQs \& Troubleshooting 💬](#faqs--troubleshooting-)
 
 ---
 
-## About 📖
-
-The boilerplate comes with a small sample ink! `Greeter` contract which stores a `message` (the "greeting") and allows anyone to update it. The frontend contains simple UI components to connect your wallet and interact with the contract (i.e. read & write the `message`). Try it out live on [Zealix](https://inkathon.xyz).
-
 ## Overview
-The article discusses Universal Music Group's decision to remove its music from TikTok and the broader challenge of using copyrighted work. It introduces Right To Use (RYTU), a web3-based solution that allows copyright holders to grant the "right to use" their work through minting RYTU NFTs. The article highlights the platform's importance in providing flexible terms for copyright usage and its potential to revolutionize copyright distribution globally. It outlines the features of the RYTU marketplace, its business model including transaction and royalty fees, personal NFT collections, verification services, and advertisement revenue. The roadmap includes plans for a Chrome extension, NFT Image Generator, and commitments from team members to distribute their RYTU NFTs.
+
+**Decentralized Remote Work Platform for Refugees on Web3 and Polkadot**
+
+The Decentralized Remote Work Platform for Refugees is a pioneering application operating within the Web3 framework and leveraging the Polkadot network. This platform addresses the hurdles faced by refugees in securing remote work opportunities and integrating into the workforce through a decentralized, transparent, and secure solution.
+
+**Key Features:**
+
+- **User Registration and Profile Management:** Individuals including refugees, employers, government entities, and platform administrators can register and maintain their profiles, supplying requisite information for identity verification and matching purposes.
+
+- **Government Refugee Status Confirmation:** Government agencies are empowered to confirm the refugee status of individuals, ensuring verified refugees have access to platform services.
+
+- **Refugee Profile and Live Resume Creation:** Refugees are enabled to create dynamic profiles and resumes, securely stored on the IPFS (InterPlanetary File System) to ensure data integrity and accessibility.
+
+- **Employer Registration and Verification:** Employers can register on the platform, providing essential company information for verification by platform administrators, thus ensuring the legitimacy of job postings.
+
+- **Employment Contract Creation and Matching:** Employers can craft job listings with comprehensive descriptions, including positions, keywords, pay rates, hours, and conditions. Advanced matching algorithms connect refugees with suitable job opportunities based on their profiles and preferences.
+
+**Benefits of Web3 and Polkadot Integration:**
+
+- **Decentralization and Transparency:** Web3 technologies eliminate intermediaries, providing transparency in job matching, payments, and reviews.
+
+- **Data Integrity and Security:** IPFS data storage and Polkadot's security features ensure the integrity and security of user data, safeguarding sensitive information like personal identification and employment documents.
+
+- **Interoperability and Scalability:** Integration with Polkadot facilitates seamless communication and data exchange with external systems like government databases and financial services. Scalability ensures the platform accommodates a growing user base without compromising performance.
+
+- **Community Governance:** Built on a decentralized network, the platform allows stakeholders to participate in decision-making and contribute to its development and evolution.
+
+- **Cross-Chain Compatibility:** Polkadot's interoperability extends to other blockchains, enabling interaction with different ecosystems for accessing a broader range of services and resources.
+
+The Decentralized Remote Work Platform for Refugees revolutionizes refugee access to remote job opportunities, ensuring transparency, security, and inclusivity while leveraging the benefits of decentralization and blockchain technology.
 
 ### Zealix User Interface
-![Alt text](./images/rightui.png?raw=true "Zealix on Testnet")
 
+![Alt text](./images/zealix-ui-1.png?raw=true 'Zealix on Testnet')
+![Alt text](./images/zealix-ui-2.png?raw=true 'Zealix on Testnet')
 
 ## Zealix Smart Contract (Aleph Zero Testnet)
 
-* Account: 4CfR5Gw8L1n4tgMr2Ud31vyrRzUBUdSGCwDjCJ8AJAkLLFYA
-* Smart Contract Address: 5GSZpLBykXuVFZ5nK8brrE1nNhyn8UozU3tqkng7NzhY7arV
+- Account: 4CfR5Gw8L1n4tgMr2Ud31vyrRzUBUdSGCwDjCJ8AJAkLLFYA
+- Smart Contract Address: 5GSZpLBykXuVFZ5nK8brrE1nNhyn8UozU3tqkng7NzhY7arV
 
-* On Aleph Zero Testnet (https://contracts-ui.substrate.io/contract/5GSZpLBykXuVFZ5nK8brrE1nNhyn8UozU3tqkng7NzhY7arV)
-![Alt text](./images/zealix-hash.png?raw=true "Aleph Zero on Testnet")
-
-
+- On Aleph Zero Testnet (https://contracts-ui.substrate.io/contract/5GSZpLBykXuVFZ5nK8brrE1nNhyn8UozU3tqkng7NzhY7arV)
+  ![Alt text](./images/zealix-hash.png?raw=true 'Aleph Zero on Testnet')
 
 ## Getting started 🚀
 
@@ -166,14 +189,11 @@ Spinning up a deployment via Vercel is pretty straightforward as the necessary s
 
 Alternatively, you can also use the provided Dockerfiles to deploy to any hosting provider of your choice. Read more [here](https://github.com/scio-labs/inkathon/pull/50#issue-2041934251).
 
-
 ## Live Demo 🌐
 
 Below you find live Demo for Zealix
 
-- [inkathon.xyz](https://inkathon.xyz) – Live demo deployment of this boilerplate
-
-
+- [Zealix](https://zeaix.netlify.app/) – The Silo of Hope
 
 ### Environment Variables
 
