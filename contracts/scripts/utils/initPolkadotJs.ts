@@ -6,10 +6,12 @@ import { getBalance, initPolkadotJs as initApi } from '@scio-labs/use-inkathon/h
 import { SubstrateChain } from '@scio-labs/use-inkathon/types'
 import * as dotenv from 'dotenv'
 
-// Dynamically load environment from `.env.{chainId}`
-const chainId = process.env.CHAIN || 'development'
-dotenv.config({ path: `.env.${chainId}` })
+dotenv.config()
 
+// Dynamically load environment from `.env.{chainId}`
+console.log({chain: process.env.CHAIN})
+const chainId = process.env.CHAIN || 'development'
+ console.log({chainId})
 /**
  * Initialize Polkadot.js API with given RPC & account from given URI.
  */
@@ -24,6 +26,7 @@ export type InitParams = {
 }
 export const initPolkadotJs = async (): Promise<InitParams> => {
   const accountUri = process.env.ACCOUNT_URI || '//Alice'
+  console.log({accountUri})
   const chain = getSubstrateChain(chainId)
   if (!chain) throw new Error(`Chain '${chainId}' not found`)
 

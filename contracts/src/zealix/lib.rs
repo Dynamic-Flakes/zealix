@@ -1,14 +1,14 @@
-#![cfg_attr(not(feature = "std"), no_std)]
+#![cfg_attr(not(feature = "std"), no_std, no_main)]
 
 #[ink::contract]
-mod refugee_registry {
-    // use ink::storage::Mapping as StorageHashMap;
-    use ink_prelude::vec::Vec;
-    use ink_storage::{Mapping as StorageHashMap};
+mod zealix {
+    use ink::storage::{Mapping as StorageHashMap};
     use ink::env::debug_println;
+    use ink::prelude::string::String;
+    use ink::prelude::vec::Vec;
 
     #[ink(storage)]
-    pub struct RefugeeRegistry {
+    pub struct Zealix {
         /// Mapping from owner to an account.
         accounts: StorageHashMap<AccountId, Account>,
         governments: StorageHashMap<AccountId, Government>,
@@ -173,7 +173,7 @@ mod refugee_registry {
         hired_refugee: AccountId,
     }
 
-    impl RefugeeRegistry {
+    impl Zealix {
         /// Creates a refugee registry contract.
         #[ink(constructor)]
         pub fn new() -> Self {
@@ -188,11 +188,19 @@ mod refugee_registry {
             }
         }
 
+        // Helper function to check if the caller is of a specific category
+        fn validate_category(&self, category: Category) -> bool {
+            let caller = Self::env().caller();
+            if let Some(account) = self.accounts.get(&caller) {
+                return account.category == category;
+            }
+            false
+        }
+
         #[ink(message)]
         pub fn register_account(&mut self, account_id: AccountId, category: Category) {
             let account = Account { category: category };
-            let caller = Self::env().caller();
-            self.accounts.insert(caller, &account);
+            self.accounts.insert(account_id, &account);
             // Emit an event.
             self.env().emit_event(AccountCreated {
                 account_id,
@@ -213,11 +221,7 @@ mod refugee_registry {
             country_of_asylum: String,
             resume_url: String,
         ) {
-            assert_eq!(
-                self.accounts.get(&account_id).unwrap().category,
-                Category::Refugee
-            );
-            
+         assert!(self.validate_category(Category::Refugee));
             let refugee = Refugee {
                 skill,
                 age,
@@ -270,10 +274,13 @@ mod refugee_registry {
 
         #[ink(message)]
         pub fn update_refugee_resume_url(&mut self, account_id: AccountId, new_url: String) {
-            if let Some(refugee) = self.refugees.get_mut(&account_id) {
+            if let Some(mut refugee) = self.refugees.get(&account_id) {
                 let caller_category = self.accounts.get(&self.env().caller()).unwrap().category;
                 if caller_category == Category::Refugee {
+
                     refugee.resume_url = new_url.clone();
+                    // Update the value at the same key
+                    self.refugees.insert(account_id, &refugee);
                     // Emit an event
                     self.env().emit_event(RefugeeProfileUpdated {
                         account_id,
@@ -286,12 +293,11 @@ mod refugee_registry {
 
         #[ink(message)]
         pub fn toggle_refugee_status(&mut self, account_id: AccountId, new_status: bool) {
-            assert_eq!(
-                self.accounts.get(&account_id).unwrap().category,
-                Category::Government
-            );
+            assert!(self.validate_category(Category::Government));
             if let Some(mut refugee) = self.refugees.get(&account_id) {
                 refugee.status = new_status;
+                // Update the value at the same key
+                self.refugees.insert(account_id, &refugee);
                 self.env().emit_event(RefugeeStatusToggled {
                     account_id,
                     new_status,
@@ -343,12 +349,10 @@ mod refugee_registry {
 
         #[ink(message)]
         pub fn toggle_employer_status(&mut self, account_id: AccountId, new_status: bool) -> bool {
-            assert_eq!(
-                self.accounts.get(&account_id).unwrap().category,
-                Category::Zealix
-            );
+            assert!(self.validate_category(Category::Zealix));
             if let Some(mut employer) = self.employers.get(&account_id) {
                 employer.status = new_status;
+                self.employers.insert(account_id, &employer);
                 debug_println!("Updated Employer {:?}", employer); // Use a formatting specifier
                 self.env().emit_event(EmployerStatusToggled {
                     account_id,
@@ -370,11 +374,8 @@ mod refugee_registry {
             hired_refugee: AccountId,
         ) {
             let employer_id = self.env().caller();
+            assert!(self.validate_category(Category::Employer));
 
-            assert_eq!(
-                self.accounts.get(&employer_id).unwrap().category,
-                Category::Employer
-            );
             let employer_id = self.env().caller();
             let job_contract =JobContract {
                 position: position.clone(), // Clone the string
@@ -392,18 +393,23 @@ mod refugee_registry {
             });
         }
 
-        // #[ink(message)]
-        // pub fn match_refugee_skill(&self, keywords: Vec<String>) -> Vec<Refugee> {
-        //     self.refugees_accounts
-        //         .iter()
-        //         .filter_map(|account_id| {
-        //             self.refugees
-        //                 .get(account_id)
-        //                 .filter(|refugee| keywords.iter().any(|keyword| refugee.skill.contains(keyword)))
-        //                 .cloned()
-        //         })
-        //         .collect()
-        // }
+        #[ink(message)]
+        pub fn get_matching_refugees(&self, keyword: String) -> Vec<Refugee> {
+            self.refugees_accounts
+                .iter()
+                .filter_map(|account_id| self.get_refugee_if_match(account_id, &keyword))
+                .collect()
+        }
+        
+        fn get_refugee_if_match(&self, account_id: &AccountId, keyword: &str) -> Option<Refugee> {
+            self.refugees.get(account_id).and_then(|refugee| {
+                if refugee.skill == keyword {
+                    Some(refugee.clone())
+                } else {
+                    None
+                }
+            })
+        }
     
     }
 
@@ -414,7 +420,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_register_account() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             contract.register_account(account_id, Category::Refugee);
             assert_eq!(
@@ -425,7 +431,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_register_refugee() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             let country_of_origin = String::from("Country1");
             let country_of_asylum = String::from("Country2");
@@ -448,10 +454,10 @@ mod refugee_registry {
 
         #[ink::test]
         fn test_toggle_refugee_status() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
-            let initial_status = true;
-            let new_status = false;
+            let initial_status = false;
+            let new_status = true;
     
             contract.register_account(account_id, Category::Government);
             contract.register_refugee(
@@ -473,7 +479,7 @@ mod refugee_registry {
 
         #[ink::test]
         fn test_get_all_refugee_profiles() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id_1 = AccountId::from([1; 32]);
             let account_id_2 = AccountId::from([2; 32]);
             let skill_1 = "Programming".to_string();
@@ -512,7 +518,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_get_refugee_by_id() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             let skill = String::from("Skill");
             let age = 30;
@@ -547,7 +553,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_register_government() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             let country = String::from("Country");
             contract.register_government(account_id, String::from("Name"), country.clone());
@@ -557,7 +563,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_register_employer() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             let company_name = String::from("Company");
             contract.register_employer(
@@ -573,7 +579,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_toggle_employer_status() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let account_id = AccountId::from([1; 32]);
             let initial_status = false; // Set initial status to false
             let new_status = true;
@@ -605,7 +611,7 @@ mod refugee_registry {
     
         #[ink::test]
         fn test_register_job_contract() {
-            let mut contract = RefugeeRegistry::new();
+            let mut contract = Zealix::new();
             let employer_id = AccountId::from([1; 32]);
             let hired_refugee = AccountId::from([2; 32]);
             let position = String::from("Position");
@@ -620,6 +626,65 @@ mod refugee_registry {
             );
             let job_contract = contract.job_contracts.get(&employer_id).unwrap();
             assert_eq!(job_contract.position, position);
+        }
+
+        #[ink::test]
+        fn test_get_matching_refugees() {
+            // Arrange
+            let mut contract = Zealix::new();
+            let keyword = "Programming".to_string();
+            let account_id_1 = AccountId::from([1; 32]);
+            let account_id_2 = AccountId::from([2; 32]);
+            let account_id_3 = AccountId::from([3; 32]);
+    
+            let refugee_1 = Refugee {
+                skill: "Programming".to_string(),
+                age: 30,
+                status: true,
+                id_type: "Passport".to_string(),
+                gov_id_number: "123456789".to_string(),
+                country_of_origin: "Country A".to_string(),
+                country_of_asylum: "Country B".to_string(),
+                resume_url: "https://example.com/resume1".to_string(),
+            };
+    
+            let refugee_2 = Refugee {
+                skill: "Design".to_string(),
+                age: 25,
+                status: false,
+                id_type: "ID Card".to_string(),
+                gov_id_number: "987654321".to_string(),
+                country_of_origin: "Country C".to_string(),
+                country_of_asylum: "Country D".to_string(),
+                resume_url: "https://example.com/resume2".to_string(),
+            };
+    
+            let refugee_3 = Refugee {
+                skill: "Programming".to_string(),
+                age: 28,
+                status: true,
+                id_type: "Passport".to_string(),
+                gov_id_number: "987654321".to_string(),
+                country_of_origin: "Country E".to_string(),
+                country_of_asylum: "Country F".to_string(),
+                resume_url: "https://example.com/resume3".to_string(),
+            };
+    
+            contract.refugees.insert(account_id_1, &refugee_1);
+            contract.refugees.insert(account_id_2, &refugee_2);
+            contract.refugees.insert(account_id_3, &refugee_3);
+    
+            contract.refugees_accounts.push(account_id_1);
+            contract.refugees_accounts.push(account_id_2);
+            contract.refugees_accounts.push(account_id_3);
+    
+            // Act
+            let matching_refugees = contract.get_matching_refugees(keyword.clone());
+    
+            // Assert
+            assert_eq!(matching_refugees.len(), 2); // There are two refugees with skill "Programming"
+            assert!(matching_refugees.contains(&&refugee_1)); // refugee_1 skill matches the keyword
+            assert!(matching_refugees.contains(&&refugee_3)); // refugee_3 skill matches the keyword
         }
     }
     
