@@ -76,7 +76,7 @@ export const ConnectButton: FC<ConnectButtonProps> = ({ showBalance = false }) =
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            className="h-12 min-w-[14rem] gap-2 rounded-[10px] border border-white/10 bg-primary px-4 py-3 font-bold text-foreground"
+            className="zealix-text-brown h-12 min-w-[14rem] gap-2 rounded-[10px] border  border-white/10 bg-primary px-4 py-3 font-bold"
             isLoading={isConnecting}
             disabled={isConnecting}
             translate="no"

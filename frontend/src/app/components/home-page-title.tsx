@@ -14,7 +14,7 @@ export const HomePageTitle: FC = () => {
           by brick, we will build a better world.&quot; ~ Zealix
         </div>
         <div className="mmb-[10px] mt-[30px] flex gap-[20px]">
-          <Link href={'/gov'}>
+          <Link href={'/government'}>
             <div className="rounded-[4px] border px-4 py-2 hover:backdrop-blur-sm">
               Government Access
             </div>

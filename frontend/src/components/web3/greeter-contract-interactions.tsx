@@ -88,14 +88,14 @@ export const GreeterContractInteractions: FC = () => {
   return (
     <>
       <div className="flex max-w-[22rem] grow flex-col gap-4">
-        <h2 className="zealix-text-wood text-center font-mono">Greeter Smart Contract</h2>
+        <h2 className="zealix-text-wood text-center font-mono">Job Offer / Contract</h2>
 
         <Form {...form}>
           {/* Fetched Greeting */}
           <Card>
             <CardContent className="pt-6">
               <FormItem>
-                <FormLabel className="text-base">Fetched Greeting</FormLabel>
+                <FormLabel className="text-base">Active Contract</FormLabel>
                 <FormControl>
                   <Input
                     placeholder={fetchIsLoading || !contract ? 'Loading…' : greeterMessage}
@@ -114,7 +114,7 @@ export const GreeterContractInteractions: FC = () => {
                 className="flex flex-col justify-end gap-2"
               >
                 <FormItem>
-                  <FormLabel className="text-base">Update Greeting</FormLabel>
+                  <FormLabel className="text-base">Employer Integrity</FormLabel>
                   <FormControl>
                     <div className="flex gap-2">
                       <Input disabled={form.formState.isSubmitting} {...register('newMessage')} />
@@ -124,7 +124,7 @@ export const GreeterContractInteractions: FC = () => {
                         disabled={fetchIsLoading || form.formState.isSubmitting}
                         isLoading={form.formState.isSubmitting}
                       >
-                        Submit
+                        Lookup
                       </Button>
                     </div>
                   </FormControl>
