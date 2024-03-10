@@ -4,10 +4,9 @@ import React, { useEffect, useState } from 'react'
 
 import { ContractIds } from '@/deployments/deployments'
 import { zodResolver } from '@hookform/resolvers/zod'
-import GreeterContract from '@inkathon/contracts/typed-contracts/contracts/greeter'
+import ZealixContract from '@inkathon/contracts/typed-contracts/contracts/zealix'
+import { Refugee } from '@inkathon/contracts/typed-contracts/types-arguments/zealix'
 import {
-  contractQuery,
-  decodeOutput,
   useInkathon,
   useRegisteredContract,
   useRegisteredTypedContract,
@@ -20,15 +19,17 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Select } from '@/components/ui/select'
+import { contractTxWithToast } from '@/utils/contract-tx-with-toast'
 import { countries } from '@/utils/countries'
 
 type SeekAsylumFormData = {
   skill: string
   age: number
-  country: string
-  status: 'verified' | 'not_verified'
-  id_type: 'NIN' | 'SSN' | 'Passport_ID' | 'Others'
-  gov_id_number: string
+  countryOfOrigin: string
+  countryOfAsylum: string
+  status: 'true' | 'false'
+  idType: 'NIN' | 'SSN' | 'Passport_ID' | 'Others'
+  govIdNumber: string
   resumeUrl: string
   category: 'refugee' | 'employer' | 'government'
 }
@@ -38,7 +39,7 @@ const formSchema = z.object({
   age: z.string(),
   countryOfOrigin: z.string(),
   countryOfAsylum: z.string(),
-  status: z.enum(['verified', 'not_verified']),
+  status: z.enum(['true', 'false']),
   idType: z.enum(['NIN', 'SSN', 'Passport_ID', 'Others']),
   govIdNumber: z.string(),
   resumeUrl: z.string(),
@@ -46,40 +47,48 @@ const formSchema = z.object({
 
 const SeekAsylumForm: React.FC = () => {
   const { api, activeAccount, activeSigner } = useInkathon()
-  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Greeter)
-  const { typedContract } = useRegisteredTypedContract(ContractIds.Greeter, GreeterContract)
-  const [greeterMessage, setGreeterMessage] = useState<string>()
+  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Zealix)
+  const { typedContract } = useRegisteredTypedContract(ContractIds.Zealix, ZealixContract)
+  const [zealixMessage, setZealixMessage] = useState<string>()
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
+  const [currentUserData, setCurrentUserData] = useState<Refugee>()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
 
   const { register, reset, handleSubmit } = form
 
-  // Fetch Greeting
   const fetchRefugeeData = async () => {
     if (!contract || !typedContract || !api) return
 
     setFetchIsLoading(true)
     try {
-      const result = await contractQuery(api, '', contract, 'greet')
-      const { output, isError, decodedOutput } = decodeOutput(result, contract, 'greet')
-      if (isError) throw new Error(decodedOutput)
-      setGreeterMessage(output)
+      // const result = await contractQuery(api, '', contract, 'zealix')
+      // const { output, isError, decodedOutput } = decodeOutput(result, contract, 'zealix')
+      // if (isError) throw new Error(decodedOutput)
+      // setZealixMessage(output)
 
+      console.log('Ok')
       // Alternatively: Fetch it with typed contract instance
-      const typedResult = await typedContract.query.greet()
-      console.log('Result from typed contract: ', typedResult.value)
+      let typedResult
+      if (activeAccount && 'address' in activeAccount) {
+        typedResult = await typedContract.query.getRefugeeById(activeAccount.address)
+        console.log('Result from typed contract: ', typedResult.value)
+
+        if (typedResult.value.ok) {
+          setCurrentUserData(typedResult.value.ok)
+        }
+      }
     } catch (e) {
       console.error(e)
-      toast.error('Error while fetching greeting. Try again…')
-      setGreeterMessage(undefined)
+      toast.error('Error while fetching data. Try again…')
+      setZealixMessage(undefined)
     } finally {
       setFetchIsLoading(false)
     }
   }
   useEffect(() => {
-    // fetchRefugeeData()
+    fetchRefugeeData()
   }, [typedContract])
 
   const updateRefugeeData: SubmitHandler<z.infer<typeof formSchema>> = async (formData) => {
@@ -89,18 +98,39 @@ const SeekAsylumForm: React.FC = () => {
     }
 
     const newFormData = { ...formData, accountId: activeAccount.address, category: 'refugee' }
-    const { skill, ...restFormData } = formData
-    //Add accountId and category
+    const {
+      skill,
+      age,
+      countryOfOrigin,
+      countryOfAsylum,
+      status,
+      idType,
+      govIdNumber,
+      resumeUrl,
+      accountId,
+      category,
+    } = newFormData
 
     try {
       console.log(newFormData)
 
-      // await contractTxWithToast(api, activeAccount.address, contract, 'setMessage', {}, [skills])
-      // reset()
+      await contractTxWithToast(api, activeAccount.address, contract, 'registerRefugee', {}, [
+        accountId,
+        skill,
+        age,
+        countryOfOrigin,
+        countryOfAsylum,
+        status,
+        idType,
+        govIdNumber,
+        resumeUrl,
+        category,
+      ])
+      reset()
     } catch (e) {
       console.error(e)
     } finally {
-      // fetchRefugeeData()
+      fetchRefugeeData()
     }
   }
 
@@ -161,8 +191,8 @@ const SeekAsylumForm: React.FC = () => {
                     <Select
                       {...register('status')}
                       options={[
-                        { label: 'Verified', value: 'verified' },
-                        { label: 'Not Verified', value: 'not_verified' },
+                        { label: 'Verified', value: 'true' },
+                        { label: 'Not Verified', value: 'false' },
                       ]}
                     />
                   </FormControl>
@@ -221,7 +251,8 @@ const SeekAsylumForm: React.FC = () => {
                   disabled={fetchIsLoading || form.formState.isSubmitting}
                   isLoading={form.formState.isSubmitting}
                 >
-                  Update My Data
+                  Register
+                  {/* {currentUserData?.category == 'Refugee' ? 'Update My Data' : 'Register'} */}
                 </Button>
               </FormItem>
             </div>

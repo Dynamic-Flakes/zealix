@@ -4,10 +4,9 @@ import React, { useEffect, useState } from 'react'
 
 import { ContractIds } from '@/deployments/deployments'
 import { zodResolver } from '@hookform/resolvers/zod'
-import GreeterContract from '@inkathon/contracts/typed-contracts/contracts/greeter'
+import ZealixContract from '@inkathon/contracts/typed-contracts/contracts/zealix'
+import { Government } from '@inkathon/contracts/typed-contracts/types-arguments/zealix'
 import {
-  contractQuery,
-  decodeOutput,
   useInkathon,
   useRegisteredContract,
   useRegisteredTypedContract,
@@ -20,6 +19,7 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Select } from '@/components/ui/select'
+import { contractTxWithToast } from '@/utils/contract-tx-with-toast'
 import { countries } from '@/utils/countries'
 
 const formSchema = z.object({
@@ -29,40 +29,48 @@ const formSchema = z.object({
 
 const RegisterGovForm: React.FC = () => {
   const { api, activeAccount, activeSigner } = useInkathon()
-  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Greeter)
-  const { typedContract } = useRegisteredTypedContract(ContractIds.Greeter, GreeterContract)
-  const [greeterMessage, setGreeterMessage] = useState<string>()
+  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Zealix)
+  const { typedContract } = useRegisteredTypedContract(ContractIds.Zealix, ZealixContract)
+  const [zealixMessage, setZealixMessage] = useState<string>()
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
+  const [currentUserData, setCurrentUserData] = useState<Government>()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
 
   const { register, reset, handleSubmit } = form
 
-  // Fetch Greeting
-  const fetchRefugeeData = async () => {
+  // Fetch ing
+  const fetchGovData = async () => {
     if (!contract || !typedContract || !api) return
 
     setFetchIsLoading(true)
     try {
-      const result = await contractQuery(api, '', contract, 'greet')
-      const { output, isError, decodedOutput } = decodeOutput(result, contract, 'greet')
-      if (isError) throw new Error(decodedOutput)
-      setGreeterMessage(output)
+      // const result = await contractQuery(api, '', contract, 'zealix')
+      // const { output, isError, decodedOutput } = decodeOutput(result, contract, 'zealix')
+      // if (isError) throw new Error(decodedOutput)
+      // setZealixMessage(output)
 
       // Alternatively: Fetch it with typed contract instance
-      const typedResult = await typedContract.query.greet()
-      console.log('Result from typed contract: ', typedResult.value)
+      let typedResult
+      if (activeAccount && 'address' in activeAccount) {
+        typedResult = await typedContract.query.getGovernmentById(activeAccount.address)
+        console.log('Result from typed contract: ', typedResult.value)
+
+        if (typedResult.value.ok) {
+          setCurrentUserData(typedResult.value.ok)
+        }
+      }
     } catch (e) {
       console.error(e)
-      toast.error('Error while fetching greeting. Try again…')
-      setGreeterMessage(undefined)
+      toast.error('Error while fetching data. Try again…')
+      setZealixMessage(undefined)
     } finally {
       setFetchIsLoading(false)
     }
   }
   useEffect(() => {
-    // fetchRefugeeData()
+    fetchGovData()
   }, [typedContract])
 
   const updateRefugeeData: SubmitHandler<z.infer<typeof formSchema>> = async (formData) => {
@@ -73,16 +81,22 @@ const RegisterGovForm: React.FC = () => {
     }
 
     const newFormData = { ...formData, accountId: activeAccount.address, category: 'government' }
+    const { name, country, accountId, category } = newFormData
 
     try {
       console.log(newFormData)
 
-      // await contractTxWithToast(api, activeAccount.address, contract, 'setMessage', {}, [skills])
+      await contractTxWithToast(api, activeAccount.address, contract, 'registerGovernment', {}, [
+        name,
+        country,
+        accountId,
+        category,
+      ])
       // reset()
     } catch (e) {
       console.error(e)
     } finally {
-      // fetchRefugeeData()
+      fetchGovData()
     }
   }
 
@@ -124,7 +138,8 @@ const RegisterGovForm: React.FC = () => {
                   disabled={fetchIsLoading || form.formState.isSubmitting}
                   isLoading={form.formState.isSubmitting}
                 >
-                  Update My Data
+                  Register
+                  {/* {currentUserData?.category == 'Government' ? 'Update My Data' : 'Register'} */}
                 </Button>
               </FormItem>
             </div>

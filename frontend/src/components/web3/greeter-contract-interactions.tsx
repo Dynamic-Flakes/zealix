@@ -4,10 +4,8 @@ import { FC, useEffect, useState } from 'react'
 
 import { ContractIds } from '@/deployments/deployments'
 import { zodResolver } from '@hookform/resolvers/zod'
-import GreeterContract from '@inkathon/contracts/typed-contracts/contracts/greeter'
+import GreeterContract from '@inkathon/contracts/typed-contracts/contracts/zealix'
 import {
-  contractQuery,
-  decodeOutput,
   useInkathon,
   useRegisteredContract,
   useRegisteredTypedContract,
@@ -28,8 +26,8 @@ const formSchema = z.object({
 
 export const GreeterContractInteractions: FC = () => {
   const { api, activeAccount, activeSigner } = useInkathon()
-  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Greeter)
-  const { typedContract } = useRegisteredTypedContract(ContractIds.Greeter, GreeterContract)
+  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Zealix)
+  const { typedContract } = useRegisteredTypedContract(ContractIds.Zealix, GreeterContract)
   const [greeterMessage, setGreeterMessage] = useState<string>()
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -44,14 +42,13 @@ export const GreeterContractInteractions: FC = () => {
 
     setFetchIsLoading(true)
     try {
-      const result = await contractQuery(api, '', contract, 'greet')
-      const { output, isError, decodedOutput } = decodeOutput(result, contract, 'greet')
-      if (isError) throw new Error(decodedOutput)
-      setGreeterMessage(output)
-
+      // const result = await contractQuery(api, '', contract, 'greet')
+      // const { output, isError, decodedOutput } = decodeOutput(result, contract, 'greet')
+      // if (isError) throw new Error(decodedOutput)
+      // setGreeterMessage(output)
       // Alternatively: Fetch it with typed contract instance
-      const typedResult = await typedContract.query.greet()
-      console.log('Result from typed contract: ', typedResult.value)
+      // const typedResult = await typedContract.query.greet()
+      // console.log('Result from typed contract: ', typedResult.value)
     } catch (e) {
       console.error(e)
       toast.error('Error while fetching greeting. Try again…')
@@ -98,7 +95,8 @@ export const GreeterContractInteractions: FC = () => {
                 <FormLabel className="text-base">Active Contract</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={fetchIsLoading || !contract ? 'Loading…' : greeterMessage}
+                    // placeholder={fetchIsLoading || !contract ? 'Loading…' : greeterMessage}
+                    placeholder={'$3,500 /mo'}
                     disabled={true}
                   />
                 </FormControl>

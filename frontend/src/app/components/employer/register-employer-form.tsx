@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 
 import { ContractIds } from '@/deployments/deployments'
 import { zodResolver } from '@hookform/resolvers/zod'
-import GreeterContract from '@inkathon/contracts/typed-contracts/contracts/greeter'
+import GreeterContract from '@inkathon/contracts/typed-contracts/contracts/zealix'
 import {
   contractQuery,
   decodeOutput,
@@ -29,8 +29,8 @@ const formSchema = z.object({
 
 const RegisterEmployerForm: React.FC = () => {
   const { api, activeAccount, activeSigner } = useInkathon()
-  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Greeter)
-  const { typedContract } = useRegisteredTypedContract(ContractIds.Greeter, GreeterContract)
+  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Zealix)
+  const { typedContract } = useRegisteredTypedContract(ContractIds.Zealix, GreeterContract)
   const [greeterMessage, setGreeterMessage] = useState<string>()
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -51,8 +51,11 @@ const RegisterEmployerForm: React.FC = () => {
       setGreeterMessage(output)
 
       // Alternatively: Fetch it with typed contract instance
-      const typedResult = await typedContract.query.greet()
-      console.log('Result from typed contract: ', typedResult.value)
+      let typedResult
+      if (activeAccount && 'address' in activeAccount) {
+        typedResult = await typedContract.query.getEmployerById(activeAccount.address)
+        console.log('Result from typed contract: ', typedResult.value)
+      }
     } catch (e) {
       console.error(e)
       toast.error('Error while fetching greeting. Try again…')
