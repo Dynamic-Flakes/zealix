@@ -1,0 +1,2017 @@
+{
+  "source": {
+    "hash": "0x05150e6f50301c7ea8621ead8ce26b5b4eade71414f37f18d34d3bef015530e9",
+    "language": "ink! 4.3.0",
+    "compiler": "rustc 1.76.0",
+    "build_info": {
+      "build_mode": "Release",
+      "cargo_contract_version": "3.2.0",
+      "rust_toolchain": "stable-x86_64-unknown-linux-gnu",
+      "wasm_opt_settings": {
+        "keep_debug_symbols": false,
+        "optimization_passes": "Z"
+      }
+    }
+  },
+  "contract": {
+    "name": "zealix",
+    "version": "0.0.1",
+    "authors": [
+      "Sunday Aroh <asmelitus@gmail.com>"
+    ]
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          "Creates a refugee registry contract."
+        ],
+        "label": "new",
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
+          "type": 7
+        },
+        "selector": "0x9bae9d5e"
+      }
+    ],
+    "docs": [],
+    "environment": {
+      "accountId": {
+        "displayName": [
+          "AccountId"
+        ],
+        "type": 3
+      },
+      "balance": {
+        "displayName": [
+          "Balance"
+        ],
+        "type": 24
+      },
+      "blockNumber": {
+        "displayName": [
+          "BlockNumber"
+        ],
+        "type": 2
+      },
+      "chainExtension": {
+        "displayName": [
+          "ChainExtension"
+        ],
+        "type": 26
+      },
+      "hash": {
+        "displayName": [
+          "Hash"
+        ],
+        "type": 23
+      },
+      "maxEventTopics": 4,
+      "timestamp": {
+        "displayName": [
+          "Timestamp"
+        ],
+        "type": 25
+      }
+    },
+    "events": [
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "name",
+            "type": {
+              "displayName": [
+                "Hash"
+              ],
+              "type": 23
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "from",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "docs": [
+          "Emitted whenever an account is being registered."
+        ],
+        "label": "Register"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "category",
+            "type": {
+              "displayName": [
+                "Category"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "docs": [],
+        "label": "AccountCreated"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "country_of_origin",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "country_of_asylum",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "docs": [],
+        "label": "RefugeeCreated"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "resume_url",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "docs": [],
+        "label": "RefugeeProfileUpdated"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "new_status",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [],
+        "label": "RefugeeStatusToggled"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "country",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "docs": [],
+        "label": "GovernmentRegistered"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "company_name",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "docs": [],
+        "label": "EmployerRegistered"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "docs": [],
+        "label": "RefugeeDeleted"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "new_status",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "docs": [],
+        "label": "EmployerStatusToggled"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "employer_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "position",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "hired_refugee",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "docs": [],
+        "label": "JobContractRegistered"
+      }
+    ],
+    "lang_error": {
+      "displayName": [
+        "ink",
+        "LangError"
+      ],
+      "type": 9
+    },
+    "messages": [
+      {
+        "args": [
+          {
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "skill",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "age",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 2
+            }
+          },
+          {
+            "label": "status",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 1
+            }
+          },
+          {
+            "label": "id_type",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "gov_id_number",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "country_of_origin",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "country_of_asylum",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "resume_url",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "category",
+            "type": {
+              "displayName": [
+                "Category"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "register_refugee",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 7
+        },
+        "selector": "0x9e843399"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_all_refugee_profiles",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 11
+        },
+        "selector": "0xbf1ae5ad"
+      },
+      {
+        "args": [
+          {
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "get_refugee_by_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 14
+        },
+        "selector": "0x9102e544"
+      },
+      {
+        "args": [
+          {
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "delete_refugee",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 7
+        },
+        "selector": "0xa0617fca"
+      },
+      {
+        "args": [
+          {
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "new_url",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_refugee_resume_url",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 7
+        },
+        "selector": "0xa0abb93f"
+      },
+      {
+        "args": [
+          {
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "new_status",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "toggle_refugee_status",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 7
+        },
+        "selector": "0x43b1962c"
+      },
+      {
+        "args": [
+          {
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "name",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "country",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "category",
+            "type": {
+              "displayName": [
+                "Category"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "register_government",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 7
+        },
+        "selector": "0x3b1d7420"
+      },
+      {
+        "args": [
+          {
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "company_name",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "registration_number",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "website",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "contact_email",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "category",
+            "type": {
+              "displayName": [
+                "Category"
+              ],
+              "type": 10
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "register_employer",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 7
+        },
+        "selector": "0xadad455b"
+      },
+      {
+        "args": [
+          {
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "get_government_by_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 16
+        },
+        "selector": "0x4bb69f45"
+      },
+      {
+        "args": [
+          {
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "get_employer_by_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 19
+        },
+        "selector": "0x9f36ef47"
+      },
+      {
+        "args": [
+          {
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          },
+          {
+            "label": "new_status",
+            "type": {
+              "displayName": [
+                "bool"
+              ],
+              "type": 1
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "toggle_employer_status",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 22
+        },
+        "selector": "0xd9f6516a"
+      },
+      {
+        "args": [
+          {
+            "label": "position",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "keyword",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "pay",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 2
+            }
+          },
+          {
+            "label": "hours",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 2
+            }
+          },
+          {
+            "label": "conditions",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "hired_refugee",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "register_job_contract",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 7
+        },
+        "selector": "0x82c24c7f"
+      },
+      {
+        "args": [
+          {
+            "label": "keyword",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "get_matching_refugees",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 11
+        },
+        "selector": "0x21c4a74a"
+      }
+    ]
+  },
+  "storage": {
+    "root": {
+      "layout": {
+        "struct": {
+          "fields": [
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0x330ba4c0",
+                              "name": "Category",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "Government"
+                                },
+                                "1": {
+                                  "fields": [],
+                                  "name": "Employer"
+                                },
+                                "2": {
+                                  "fields": [],
+                                  "name": "Refugee"
+                                },
+                                "3": {
+                                  "fields": [],
+                                  "name": "Zealix"
+                                }
+                              }
+                            }
+                          },
+                          "name": "category"
+                        }
+                      ],
+                      "name": "Account"
+                    }
+                  },
+                  "root_key": "0x330ba4c0"
+                }
+              },
+              "name": "accounts"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x131aa7e7",
+                              "ty": 0
+                            }
+                          },
+                          "name": "name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x131aa7e7",
+                              "ty": 0
+                            }
+                          },
+                          "name": "country"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0x131aa7e7",
+                              "name": "Category",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "Government"
+                                },
+                                "1": {
+                                  "fields": [],
+                                  "name": "Employer"
+                                },
+                                "2": {
+                                  "fields": [],
+                                  "name": "Refugee"
+                                },
+                                "3": {
+                                  "fields": [],
+                                  "name": "Zealix"
+                                }
+                              }
+                            }
+                          },
+                          "name": "category"
+                        }
+                      ],
+                      "name": "Government"
+                    }
+                  },
+                  "root_key": "0x131aa7e7"
+                }
+              },
+              "name": "governments"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb729a7ef",
+                              "ty": 0
+                            }
+                          },
+                          "name": "company_name"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb729a7ef",
+                              "ty": 0
+                            }
+                          },
+                          "name": "registration_number"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb729a7ef",
+                              "ty": 0
+                            }
+                          },
+                          "name": "website"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb729a7ef",
+                              "ty": 0
+                            }
+                          },
+                          "name": "contact_email"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xb729a7ef",
+                              "ty": 1
+                            }
+                          },
+                          "name": "status"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0xb729a7ef",
+                              "name": "Category",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "Government"
+                                },
+                                "1": {
+                                  "fields": [],
+                                  "name": "Employer"
+                                },
+                                "2": {
+                                  "fields": [],
+                                  "name": "Refugee"
+                                },
+                                "3": {
+                                  "fields": [],
+                                  "name": "Zealix"
+                                }
+                              }
+                            }
+                          },
+                          "name": "category"
+                        }
+                      ],
+                      "name": "Employer"
+                    }
+                  },
+                  "root_key": "0xb729a7ef"
+                }
+              },
+              "name": "employers"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xbf30b063",
+                              "ty": 0
+                            }
+                          },
+                          "name": "position"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xbf30b063",
+                              "ty": 0
+                            }
+                          },
+                          "name": "keyword"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xbf30b063",
+                              "ty": 2
+                            }
+                          },
+                          "name": "pay"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xbf30b063",
+                              "ty": 2
+                            }
+                          },
+                          "name": "hours"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xbf30b063",
+                              "ty": 0
+                            }
+                          },
+                          "name": "conditions"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xbf30b063",
+                              "ty": 3
+                            }
+                          },
+                          "name": "hired_refugee"
+                        }
+                      ],
+                      "name": "JobContract"
+                    }
+                  },
+                  "root_key": "0xbf30b063"
+                }
+              },
+              "name": "job_contracts"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x333254ed",
+                              "ty": 0
+                            }
+                          },
+                          "name": "skill"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x333254ed",
+                              "ty": 2
+                            }
+                          },
+                          "name": "age"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x333254ed",
+                              "ty": 1
+                            }
+                          },
+                          "name": "status"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x333254ed",
+                              "ty": 0
+                            }
+                          },
+                          "name": "id_type"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x333254ed",
+                              "ty": 0
+                            }
+                          },
+                          "name": "gov_id_number"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x333254ed",
+                              "ty": 0
+                            }
+                          },
+                          "name": "country_of_origin"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x333254ed",
+                              "ty": 0
+                            }
+                          },
+                          "name": "country_of_asylum"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x333254ed",
+                              "ty": 0
+                            }
+                          },
+                          "name": "resume_url"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0x333254ed",
+                              "name": "Category",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "Government"
+                                },
+                                "1": {
+                                  "fields": [],
+                                  "name": "Employer"
+                                },
+                                "2": {
+                                  "fields": [],
+                                  "name": "Refugee"
+                                },
+                                "3": {
+                                  "fields": [],
+                                  "name": "Zealix"
+                                }
+                              }
+                            }
+                          },
+                          "name": "category"
+                        }
+                      ],
+                      "name": "Refugee"
+                    }
+                  },
+                  "root_key": "0x333254ed"
+                }
+              },
+              "name": "refugees"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 6
+                }
+              },
+              "name": "refugees_accounts"
+            }
+          ],
+          "name": "Zealix"
+        }
+      },
+      "root_key": "0x00000000"
+    }
+  },
+  "types": [
+    {
+      "id": 0,
+      "type": {
+        "def": {
+          "primitive": "str"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "type": {
+        "def": {
+          "primitive": "bool"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 4,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "AccountId"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "array": {
+            "len": 32,
+            "type": 5
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "primitive": "u8"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 3
+          }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 8
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 8
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 1,
+                "name": "CouldNotReadInput"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "LangError"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "Government"
+              },
+              {
+                "index": 1,
+                "name": "Employer"
+              },
+              {
+                "index": 2,
+                "name": "Refugee"
+              },
+              {
+                "index": 3,
+                "name": "Zealix"
+              }
+            ]
+          }
+        },
+        "path": [
+          "zealix",
+          "zealix",
+          "Category"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 12
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 12
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 13
+          }
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "skill",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "age",
+                "type": 2,
+                "typeName": "u32"
+              },
+              {
+                "name": "status",
+                "type": 1,
+                "typeName": "bool"
+              },
+              {
+                "name": "id_type",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "gov_id_number",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "country_of_origin",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "country_of_asylum",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "resume_url",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "category",
+                "type": 10,
+                "typeName": "Category"
+              }
+            ]
+          }
+        },
+        "path": [
+          "zealix",
+          "zealix",
+          "Refugee"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 15
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 15
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 13
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 13
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 17
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 17
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 18
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "name",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "country",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "category",
+                "type": 10,
+                "typeName": "Category"
+              }
+            ]
+          }
+        },
+        "path": [
+          "zealix",
+          "zealix",
+          "Government"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 20
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 21
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 21
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "company_name",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "registration_number",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "website",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "contact_email",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "status",
+                "type": 1,
+                "typeName": "bool"
+              },
+              {
+                "name": "category",
+                "type": 10,
+                "typeName": "Category"
+              }
+            ]
+          }
+        },
+        "path": [
+          "zealix",
+          "zealix",
+          "Employer"
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 1
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 1
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 4,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "primitive": "u128"
+        }
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "primitive": "u64"
+        }
+      }
+    },
+    {
+      "id": 26,
+      "type": {
+        "def": {
+          "variant": {}
+        },
+        "path": [
+          "ink_env",
+          "types",
+          "NoChainExtension"
+        ]
+      }
+    }
+  ],
+  "version": "4"
+}

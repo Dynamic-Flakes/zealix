@@ -23,8 +23,9 @@ import {
 const main = async () => {
   const { api, account } = await initPolkadotJs()
 
-  // Deploy greeter contract
-  const { abi, wasm } = await getDeploymentData('greeter')
+  // Deploy zealix contract
+  const { abi, wasm } = await getDeploymentData('zealix')
+  console.log(abi, wasm)
   const { address } = await deployContract(api, account, abi, wasm, 'default', [])
   const contract = new ContractPromise(api, abi, address)
 
@@ -37,8 +38,8 @@ const main = async () => {
   }
 
   // Read message
-  const result = await contractQuery(api, '', contract, 'greet')
-  const { decodedOutput } = decodeOutput(result, contract, 'greet')
+  const result = await contractQuery(api, '', contract, 'zealix')
+  const { decodedOutput } = decodeOutput(result, contract, 'zealix')
   console.log('\nQueried greeting:', decodedOutput)
 }
 
