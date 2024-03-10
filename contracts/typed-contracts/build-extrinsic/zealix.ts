@@ -21,20 +21,6 @@ export default class Methods {
 		this.__apiPromise = apiPromise;
 	}
 	/**
-	 * registerAccount
-	 *
-	 * @param { ArgumentTypes.AccountId } accountId,
-	 * @param { ArgumentTypes.Category } category,
-	*/
-	"registerAccount" (
-		accountId: ArgumentTypes.AccountId,
-		category: ArgumentTypes.Category,
-		__options: GasLimit,
-	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "registerAccount", [accountId, category], __options);
-	}
-
-	/**
 	 * registerRefugee
 	 *
 	 * @param { ArgumentTypes.AccountId } accountId,
@@ -46,6 +32,7 @@ export default class Methods {
 	 * @param { string } countryOfOrigin,
 	 * @param { string } countryOfAsylum,
 	 * @param { string } resumeUrl,
+	 * @param { ArgumentTypes.Category } category,
 	*/
 	"registerRefugee" (
 		accountId: ArgumentTypes.AccountId,
@@ -57,9 +44,10 @@ export default class Methods {
 		countryOfOrigin: string,
 		countryOfAsylum: string,
 		resumeUrl: string,
+		category: ArgumentTypes.Category,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "registerRefugee", [accountId, skill, age, status, idType, govIdNumber, countryOfOrigin, countryOfAsylum, resumeUrl], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "registerRefugee", [accountId, skill, age, status, idType, govIdNumber, countryOfOrigin, countryOfAsylum, resumeUrl, category], __options);
 	}
 
 	/**
@@ -130,14 +118,16 @@ export default class Methods {
 	 * @param { ArgumentTypes.AccountId } accountId,
 	 * @param { string } name,
 	 * @param { string } country,
+	 * @param { ArgumentTypes.Category } category,
 	*/
 	"registerGovernment" (
 		accountId: ArgumentTypes.AccountId,
 		name: string,
 		country: string,
+		category: ArgumentTypes.Category,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "registerGovernment", [accountId, name, country], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "registerGovernment", [accountId, name, country, category], __options);
 	}
 
 	/**
@@ -148,6 +138,7 @@ export default class Methods {
 	 * @param { string } registrationNumber,
 	 * @param { string } website,
 	 * @param { string } contactEmail,
+	 * @param { ArgumentTypes.Category } category,
 	*/
 	"registerEmployer" (
 		accountId: ArgumentTypes.AccountId,
@@ -155,9 +146,34 @@ export default class Methods {
 		registrationNumber: string,
 		website: string,
 		contactEmail: string,
+		category: ArgumentTypes.Category,
 		__options: GasLimit,
 	){
-		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "registerEmployer", [accountId, companyName, registrationNumber, website, contactEmail], __options);
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "registerEmployer", [accountId, companyName, registrationNumber, website, contactEmail, category], __options);
+	}
+
+	/**
+	 * getGovernmentById
+	 *
+	 * @param { ArgumentTypes.AccountId } accountId,
+	*/
+	"getGovernmentById" (
+		accountId: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "getGovernmentById", [accountId], __options);
+	}
+
+	/**
+	 * getEmployerById
+	 *
+	 * @param { ArgumentTypes.AccountId } accountId,
+	*/
+	"getEmployerById" (
+		accountId: ArgumentTypes.AccountId,
+		__options: GasLimit,
+	){
+		return buildSubmittableExtrinsic( this.__apiPromise, this.__nativeContract, "getEmployerById", [accountId], __options);
 	}
 
 	/**

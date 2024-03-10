@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x2d36ca7d2c88e89e3ea0d73bcc749fa14382738fd392fc5582903d21a7e6a15f",
+    "hash": "0x05150e6f50301c7ea8621ead8ce26b5b4eade71414f37f18d34d3bef015530e9",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.76.0",
     "build_info": {
@@ -52,7 +52,7 @@
         "displayName": [
           "Balance"
         ],
-        "type": 18
+        "type": 24
       },
       "blockNumber": {
         "displayName": [
@@ -64,20 +64,20 @@
         "displayName": [
           "ChainExtension"
         ],
-        "type": 20
+        "type": 26
       },
       "hash": {
         "displayName": [
           "Hash"
         ],
-        "type": 17
+        "type": 23
       },
       "maxEventTopics": 4,
       "timestamp": {
         "displayName": [
           "Timestamp"
         ],
-        "type": 19
+        "type": 25
       }
     },
     "events": [
@@ -91,7 +91,7 @@
               "displayName": [
                 "Hash"
               ],
-              "type": 17
+              "type": 23
             }
           },
           {
@@ -395,41 +395,6 @@
             }
           },
           {
-            "label": "category",
-            "type": {
-              "displayName": [
-                "Category"
-              ],
-              "type": 10
-            }
-          }
-        ],
-        "default": false,
-        "docs": [],
-        "label": "register_account",
-        "mutates": true,
-        "payable": false,
-        "returnType": {
-          "displayName": [
-            "ink",
-            "MessageResult"
-          ],
-          "type": 7
-        },
-        "selector": "0x22557465"
-      },
-      {
-        "args": [
-          {
-            "label": "account_id",
-            "type": {
-              "displayName": [
-                "AccountId"
-              ],
-              "type": 3
-            }
-          },
-          {
             "label": "skill",
             "type": {
               "displayName": [
@@ -499,6 +464,15 @@
                 "String"
               ],
               "type": 0
+            }
+          },
+          {
+            "label": "category",
+            "type": {
+              "displayName": [
+                "Category"
+              ],
+              "type": 10
             }
           }
         ],
@@ -682,6 +656,15 @@
               ],
               "type": 0
             }
+          },
+          {
+            "label": "category",
+            "type": {
+              "displayName": [
+                "Category"
+              ],
+              "type": 10
+            }
           }
         ],
         "default": false,
@@ -744,6 +727,15 @@
               ],
               "type": 0
             }
+          },
+          {
+            "label": "category",
+            "type": {
+              "displayName": [
+                "Category"
+              ],
+              "type": 10
+            }
           }
         ],
         "default": false,
@@ -759,6 +751,58 @@
           "type": 7
         },
         "selector": "0xadad455b"
+      },
+      {
+        "args": [
+          {
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "get_government_by_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 16
+        },
+        "selector": "0x4bb69f45"
+      },
+      {
+        "args": [
+          {
+            "label": "account_id",
+            "type": {
+              "displayName": [
+                "AccountId"
+              ],
+              "type": 3
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "get_employer_by_id",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 19
+        },
+        "selector": "0x9f36ef47"
       },
       {
         "args": [
@@ -791,7 +835,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 16
+          "type": 22
         },
         "selector": "0xd9f6516a"
       },
@@ -964,6 +1008,33 @@
                             }
                           },
                           "name": "country"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0x131aa7e7",
+                              "name": "Category",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "Government"
+                                },
+                                "1": {
+                                  "fields": [],
+                                  "name": "Employer"
+                                },
+                                "2": {
+                                  "fields": [],
+                                  "name": "Refugee"
+                                },
+                                "3": {
+                                  "fields": [],
+                                  "name": "Zealix"
+                                }
+                              }
+                            }
+                          },
+                          "name": "category"
                         }
                       ],
                       "name": "Government"
@@ -1024,6 +1095,33 @@
                             }
                           },
                           "name": "status"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0xb729a7ef",
+                              "name": "Category",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "Government"
+                                },
+                                "1": {
+                                  "fields": [],
+                                  "name": "Employer"
+                                },
+                                "2": {
+                                  "fields": [],
+                                  "name": "Refugee"
+                                },
+                                "3": {
+                                  "fields": [],
+                                  "name": "Zealix"
+                                }
+                              }
+                            }
+                          },
+                          "name": "category"
                         }
                       ],
                       "name": "Employer"
@@ -1180,6 +1278,33 @@
                             }
                           },
                           "name": "resume_url"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0x333254ed",
+                              "name": "Category",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "Government"
+                                },
+                                "1": {
+                                  "fields": [],
+                                  "name": "Employer"
+                                },
+                                "2": {
+                                  "fields": [],
+                                  "name": "Refugee"
+                                },
+                                "3": {
+                                  "fields": [],
+                                  "name": "Zealix"
+                                }
+                              }
+                            }
+                          },
+                          "name": "category"
                         }
                       ],
                       "name": "Refugee"
@@ -1478,6 +1603,11 @@
                 "name": "resume_url",
                 "type": 0,
                 "typeName": "String"
+              },
+              {
+                "name": "category",
+                "type": 10,
+                "typeName": "Category"
               }
             ]
           }
@@ -1573,6 +1703,233 @@
               {
                 "fields": [
                   {
+                    "type": 17
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 17
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 18
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "name",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "country",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "category",
+                "type": 10,
+                "typeName": "Category"
+              }
+            ]
+          }
+        },
+        "path": [
+          "zealix",
+          "zealix",
+          "Government"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 20
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 9
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 20
+          },
+          {
+            "name": "E",
+            "type": 9
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 21
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 21
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "company_name",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "registration_number",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "website",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "contact_email",
+                "type": 0,
+                "typeName": "String"
+              },
+              {
+                "name": "status",
+                "type": 1,
+                "typeName": "bool"
+              },
+              {
+                "name": "category",
+                "type": 10,
+                "typeName": "Category"
+              }
+            ]
+          }
+        },
+        "path": [
+          "zealix",
+          "zealix",
+          "Employer"
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
                     "type": 1
                   }
                 ],
@@ -1607,7 +1964,7 @@
       }
     },
     {
-      "id": 17,
+      "id": 23,
       "type": {
         "def": {
           "composite": {
@@ -1627,7 +1984,7 @@
       }
     },
     {
-      "id": 18,
+      "id": 24,
       "type": {
         "def": {
           "primitive": "u128"
@@ -1635,7 +1992,7 @@
       }
     },
     {
-      "id": 19,
+      "id": 25,
       "type": {
         "def": {
           "primitive": "u64"
@@ -1643,7 +2000,7 @@
       }
     },
     {
-      "id": 20,
+      "id": 26,
       "type": {
         "def": {
           "variant": {}

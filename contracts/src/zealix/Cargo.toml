@@ -17,17 +17,3 @@ path = "lib.rs"
 default = ["std"]
 std = ["ink/std", "scale/std", "scale-info/std"]
 ink-as-dependency = []
-
-
-[build.env]
-passthrough = [
-    "RUST_BACKTRACE=1",
-    "RUST_LOG",
-    "TRAVIS",
-]
-
-[profile.dev]
-panic = "abort"
-
-[profile.release]
-panic = "abort"

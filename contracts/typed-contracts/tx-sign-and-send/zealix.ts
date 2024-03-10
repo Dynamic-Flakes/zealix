@@ -29,22 +29,6 @@ export default class Methods {
 	}
 
 	/**
-	* registerAccount
-	*
-	* @param { ArgumentTypes.AccountId } accountId,
-	* @param { ArgumentTypes.Category } category,
-	*/
-	"registerAccount" (
-		accountId: ArgumentTypes.AccountId,
-		category: ArgumentTypes.Category,
-		__options ? : GasLimit,
-	){
-		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "registerAccount", (events: EventRecord) => {
-			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [accountId, category], __options);
-	}
-
-	/**
 	* registerRefugee
 	*
 	* @param { ArgumentTypes.AccountId } accountId,
@@ -56,6 +40,7 @@ export default class Methods {
 	* @param { string } countryOfOrigin,
 	* @param { string } countryOfAsylum,
 	* @param { string } resumeUrl,
+	* @param { ArgumentTypes.Category } category,
 	*/
 	"registerRefugee" (
 		accountId: ArgumentTypes.AccountId,
@@ -67,11 +52,12 @@ export default class Methods {
 		countryOfOrigin: string,
 		countryOfAsylum: string,
 		resumeUrl: string,
+		category: ArgumentTypes.Category,
 		__options ? : GasLimit,
 	){
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "registerRefugee", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [accountId, skill, age, status, idType, govIdNumber, countryOfOrigin, countryOfAsylum, resumeUrl], __options);
+		}, [accountId, skill, age, status, idType, govIdNumber, countryOfOrigin, countryOfAsylum, resumeUrl, category], __options);
 	}
 
 	/**
@@ -152,16 +138,18 @@ export default class Methods {
 	* @param { ArgumentTypes.AccountId } accountId,
 	* @param { string } name,
 	* @param { string } country,
+	* @param { ArgumentTypes.Category } category,
 	*/
 	"registerGovernment" (
 		accountId: ArgumentTypes.AccountId,
 		name: string,
 		country: string,
+		category: ArgumentTypes.Category,
 		__options ? : GasLimit,
 	){
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "registerGovernment", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [accountId, name, country], __options);
+		}, [accountId, name, country, category], __options);
 	}
 
 	/**
@@ -172,6 +160,7 @@ export default class Methods {
 	* @param { string } registrationNumber,
 	* @param { string } website,
 	* @param { string } contactEmail,
+	* @param { ArgumentTypes.Category } category,
 	*/
 	"registerEmployer" (
 		accountId: ArgumentTypes.AccountId,
@@ -179,11 +168,40 @@ export default class Methods {
 		registrationNumber: string,
 		website: string,
 		contactEmail: string,
+		category: ArgumentTypes.Category,
 		__options ? : GasLimit,
 	){
 		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "registerEmployer", (events: EventRecord) => {
 			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
-		}, [accountId, companyName, registrationNumber, website, contactEmail], __options);
+		}, [accountId, companyName, registrationNumber, website, contactEmail, category], __options);
+	}
+
+	/**
+	* getGovernmentById
+	*
+	* @param { ArgumentTypes.AccountId } accountId,
+	*/
+	"getGovernmentById" (
+		accountId: ArgumentTypes.AccountId,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "getGovernmentById", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [accountId], __options);
+	}
+
+	/**
+	* getEmployerById
+	*
+	* @param { ArgumentTypes.AccountId } accountId,
+	*/
+	"getEmployerById" (
+		accountId: ArgumentTypes.AccountId,
+		__options ? : GasLimit,
+	){
+		return txSignAndSend( this.__apiPromise, this.__nativeContract, this.__keyringPair, "getEmployerById", (events: EventRecord) => {
+			return decodeEvents(events, this.__nativeContract, EVENT_DATA_TYPE_DESCRIPTIONS);
+		}, [accountId], __options);
 	}
 
 	/**

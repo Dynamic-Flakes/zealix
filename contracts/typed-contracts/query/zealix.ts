@@ -30,21 +30,6 @@ export default class Methods {
 	}
 
 	/**
-	* registerAccount
-	*
-	* @param { ArgumentTypes.AccountId } accountId,
-	* @param { ArgumentTypes.Category } category,
-	* @returns { Result<null, ReturnTypes.LangError> }
-	*/
-	"registerAccount" (
-		accountId: ArgumentTypes.AccountId,
-		category: ArgumentTypes.Category,
-		__options ? : GasLimit,
-	): Promise< QueryReturnType< Result<null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "registerAccount", [accountId, category], __options , (result) => { return handleReturnType(result, getTypeDescription(7, DATA_TYPE_DESCRIPTIONS)); });
-	}
-
-	/**
 	* registerRefugee
 	*
 	* @param { ArgumentTypes.AccountId } accountId,
@@ -56,6 +41,7 @@ export default class Methods {
 	* @param { string } countryOfOrigin,
 	* @param { string } countryOfAsylum,
 	* @param { string } resumeUrl,
+	* @param { ArgumentTypes.Category } category,
 	* @returns { Result<null, ReturnTypes.LangError> }
 	*/
 	"registerRefugee" (
@@ -68,9 +54,10 @@ export default class Methods {
 		countryOfOrigin: string,
 		countryOfAsylum: string,
 		resumeUrl: string,
+		category: ArgumentTypes.Category,
 		__options ? : GasLimit,
 	): Promise< QueryReturnType< Result<null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "registerRefugee", [accountId, skill, age, status, idType, govIdNumber, countryOfOrigin, countryOfAsylum, resumeUrl], __options , (result) => { return handleReturnType(result, getTypeDescription(7, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "registerRefugee", [accountId, skill, age, status, idType, govIdNumber, countryOfOrigin, countryOfAsylum, resumeUrl, category], __options , (result) => { return handleReturnType(result, getTypeDescription(7, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -146,15 +133,17 @@ export default class Methods {
 	* @param { ArgumentTypes.AccountId } accountId,
 	* @param { string } name,
 	* @param { string } country,
+	* @param { ArgumentTypes.Category } category,
 	* @returns { Result<null, ReturnTypes.LangError> }
 	*/
 	"registerGovernment" (
 		accountId: ArgumentTypes.AccountId,
 		name: string,
 		country: string,
+		category: ArgumentTypes.Category,
 		__options ? : GasLimit,
 	): Promise< QueryReturnType< Result<null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "registerGovernment", [accountId, name, country], __options , (result) => { return handleReturnType(result, getTypeDescription(7, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "registerGovernment", [accountId, name, country, category], __options , (result) => { return handleReturnType(result, getTypeDescription(7, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -165,6 +154,7 @@ export default class Methods {
 	* @param { string } registrationNumber,
 	* @param { string } website,
 	* @param { string } contactEmail,
+	* @param { ArgumentTypes.Category } category,
 	* @returns { Result<null, ReturnTypes.LangError> }
 	*/
 	"registerEmployer" (
@@ -173,9 +163,36 @@ export default class Methods {
 		registrationNumber: string,
 		website: string,
 		contactEmail: string,
+		category: ArgumentTypes.Category,
 		__options ? : GasLimit,
 	): Promise< QueryReturnType< Result<null, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "registerEmployer", [accountId, companyName, registrationNumber, website, contactEmail], __options , (result) => { return handleReturnType(result, getTypeDescription(7, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "registerEmployer", [accountId, companyName, registrationNumber, website, contactEmail, category], __options , (result) => { return handleReturnType(result, getTypeDescription(7, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getGovernmentById
+	*
+	* @param { ArgumentTypes.AccountId } accountId,
+	* @returns { Result<ReturnTypes.Government | null, ReturnTypes.LangError> }
+	*/
+	"getGovernmentById" (
+		accountId: ArgumentTypes.AccountId,
+		__options ? : GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.Government | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "getGovernmentById", [accountId], __options , (result) => { return handleReturnType(result, getTypeDescription(16, DATA_TYPE_DESCRIPTIONS)); });
+	}
+
+	/**
+	* getEmployerById
+	*
+	* @param { ArgumentTypes.AccountId } accountId,
+	* @returns { Result<ReturnTypes.Employer | null, ReturnTypes.LangError> }
+	*/
+	"getEmployerById" (
+		accountId: ArgumentTypes.AccountId,
+		__options ? : GasLimit,
+	): Promise< QueryReturnType< Result<ReturnTypes.Employer | null, ReturnTypes.LangError> > >{
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "getEmployerById", [accountId], __options , (result) => { return handleReturnType(result, getTypeDescription(19, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**
@@ -190,7 +207,7 @@ export default class Methods {
 		newStatus: boolean,
 		__options ? : GasLimit,
 	): Promise< QueryReturnType< Result<boolean, ReturnTypes.LangError> > >{
-		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "toggleEmployerStatus", [accountId, newStatus], __options , (result) => { return handleReturnType(result, getTypeDescription(16, DATA_TYPE_DESCRIPTIONS)); });
+		return queryOkJSON( this.__apiPromise, this.__nativeContract, this.__callerAddress, "toggleEmployerStatus", [accountId, newStatus], __options , (result) => { return handleReturnType(result, getTypeDescription(22, DATA_TYPE_DESCRIPTIONS)); });
 	}
 
 	/**

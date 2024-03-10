@@ -22,7 +22,23 @@ export type Refugee = {
 	govIdNumber: string,
 	countryOfOrigin: string,
 	countryOfAsylum: string,
-	resumeUrl: string
+	resumeUrl: string,
+	category: Category
+}
+
+export type Government = {
+	name: string,
+	country: string,
+	category: Category
+}
+
+export type Employer = {
+	companyName: string,
+	registrationNumber: string,
+	website: string,
+	contactEmail: string,
+	status: boolean,
+	category: Category
 }
 
 export type Hash = string | number[]
