@@ -40,7 +40,6 @@ const RegisterGovForm: React.FC = () => {
 
   const { register, reset, handleSubmit } = form
 
-  // Fetch ing
   const fetchGovData = async () => {
     if (!contract || !typedContract || !api) return
 
@@ -61,9 +60,11 @@ const RegisterGovForm: React.FC = () => {
           setCurrentUserData(typedResult.value.ok)
         }
       }
-    } catch (e) {
-      console.error(e)
-      toast.error('Error while fetching data. Try again…')
+    } catch (e: any) {
+      console.log(e)
+      if (e['issue'] == 'FAIL_AFTER_CALL::RESULT_NOT_OK')
+        toast.error('To proceed, register as Government')
+      else toast.error('Error while fetching data. Try again…')
       setZealixMessage(undefined)
     } finally {
       setFetchIsLoading(false)
@@ -87,12 +88,12 @@ const RegisterGovForm: React.FC = () => {
       console.log(newFormData)
 
       await contractTxWithToast(api, activeAccount.address, contract, 'registerGovernment', {}, [
+        accountId,
         name,
         country,
-        accountId,
         category,
       ])
-      // reset()
+      reset()
     } catch (e) {
       console.error(e)
     } finally {
@@ -138,7 +139,7 @@ const RegisterGovForm: React.FC = () => {
                   disabled={fetchIsLoading || form.formState.isSubmitting}
                   isLoading={form.formState.isSubmitting}
                 >
-                  Register
+                  Register as Government
                   {/* {currentUserData?.category == 'Government' ? 'Update My Data' : 'Register'} */}
                 </Button>
               </FormItem>

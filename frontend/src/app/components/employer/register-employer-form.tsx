@@ -4,10 +4,9 @@ import React, { useEffect, useState } from 'react'
 
 import { ContractIds } from '@/deployments/deployments'
 import { zodResolver } from '@hookform/resolvers/zod'
-import GreeterContract from '@inkathon/contracts/typed-contracts/contracts/zealix'
+import ZealixContract from '@inkathon/contracts/typed-contracts/contracts/zealix'
+import { Employer } from '@inkathon/contracts/typed-contracts/types-arguments/zealix'
 import {
-  contractQuery,
-  decodeOutput,
   useInkathon,
   useRegisteredContract,
   useRegisteredTypedContract,
@@ -19,6 +18,7 @@ import * as z from 'zod'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { contractTxWithToast } from '@/utils/contract-tx-with-toast'
 
 const formSchema = z.object({
   companyName: z.string(),
@@ -30,9 +30,10 @@ const formSchema = z.object({
 const RegisterEmployerForm: React.FC = () => {
   const { api, activeAccount, activeSigner } = useInkathon()
   const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Zealix)
-  const { typedContract } = useRegisteredTypedContract(ContractIds.Zealix, GreeterContract)
-  const [greeterMessage, setGreeterMessage] = useState<string>()
+  const { typedContract } = useRegisteredTypedContract(ContractIds.Zealix, ZealixContract)
+  const [zealixMessage, setZealixMessage] = useState<string>()
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
+  const [currentUserData, setCurrentUserData] = useState<Employer>()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
@@ -45,27 +46,33 @@ const RegisterEmployerForm: React.FC = () => {
 
     setFetchIsLoading(true)
     try {
-      const result = await contractQuery(api, '', contract, 'greet')
-      const { output, isError, decodedOutput } = decodeOutput(result, contract, 'greet')
-      if (isError) throw new Error(decodedOutput)
-      setGreeterMessage(output)
+      // const result = await contractQuery(api, '', contract, 'greet')
+      // const { output, isError, decodedOutput } = decodeOutput(result, contract, 'greet')
+      // if (isError) throw new Error(decodedOutput)
+      // setGreeterMessage(output)
 
       // Alternatively: Fetch it with typed contract instance
       let typedResult
       if (activeAccount && 'address' in activeAccount) {
         typedResult = await typedContract.query.getEmployerById(activeAccount.address)
         console.log('Result from typed contract: ', typedResult.value)
+
+        if (typedResult.value.ok) {
+          setCurrentUserData(typedResult.value.ok)
+        }
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
-      toast.error('Error while fetching greeting. Try again…')
-      setGreeterMessage(undefined)
+      if (e['issue'] == 'FAIL_AFTER_CALL::RESULT_NOT_OK')
+        toast.error('To Proceed, register as Employer')
+      else toast.error('Error while fetching data. Try again…')
+      setZealixMessage(undefined)
     } finally {
       setFetchIsLoading(false)
     }
   }
   useEffect(() => {
-    // fetchRefugeeData()
+    fetchRefugeeData()
   }, [typedContract])
 
   const updateRefugeeData: SubmitHandler<z.infer<typeof formSchema>> = async (formData) => {
@@ -76,16 +83,25 @@ const RegisterEmployerForm: React.FC = () => {
     }
 
     const newFormData = { ...formData, accountId: activeAccount.address, category: 'employer' }
+    const { accountId, companyName, registrationNumber, website, contactEmail, category } =
+      newFormData
 
     try {
       console.log(newFormData)
 
-      // await contractTxWithToast(api, activeAccount.address, contract, 'setMessage', {}, [skills])
-      // reset()
+      await contractTxWithToast(api, activeAccount.address, contract, 'registerEmployer', {}, [
+        accountId,
+        companyName,
+        registrationNumber,
+        website,
+        contactEmail,
+        category,
+      ])
+      reset()
     } catch (e) {
       console.error(e)
     } finally {
-      // fetchRefugeeData()
+      fetchRefugeeData()
     }
   }
 
@@ -138,7 +154,8 @@ const RegisterEmployerForm: React.FC = () => {
                   disabled={fetchIsLoading || form.formState.isSubmitting}
                   isLoading={form.formState.isSubmitting}
                 >
-                  Update Company Data
+                  Register as Employer
+                  {/* {currentUserData?.category == 'Employer' ? 'Update My Data' : 'Register'} */}
                 </Button>
               </FormItem>
             </div>

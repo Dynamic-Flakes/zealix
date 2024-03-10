@@ -76,7 +76,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
 
               <div
                 className="mx-auto h-screen w-[100vw] max-w-screen-lg overflow-y-auto border-b-0 border-t-0 lg:w-2/3 lg:border-l-2 lg:border-r-2"
-                style={borderColor}
+                style={{ ...borderColor, border: 'none' }}
               >
                 <div className="h-full px-4 py-8">{children}</div>
               </div>

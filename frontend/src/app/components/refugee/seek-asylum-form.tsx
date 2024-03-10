@@ -39,7 +39,7 @@ const formSchema = z.object({
   age: z.string(),
   countryOfOrigin: z.string(),
   countryOfAsylum: z.string(),
-  status: z.enum(['true', 'false']),
+  status: z.enum(['false', 'true']),
   idType: z.enum(['NIN', 'SSN', 'Passport_ID', 'Others']),
   govIdNumber: z.string(),
   resumeUrl: z.string(),
@@ -79,9 +79,11 @@ const SeekAsylumForm: React.FC = () => {
           setCurrentUserData(typedResult.value.ok)
         }
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
-      toast.error('Error while fetching data. Try again…')
+      if (e['issue'] == 'FAIL_AFTER_CALL::RESULT_NOT_OK')
+        toast.error('To Proceed, register as Refugee')
+      else toast.error('Error while fetching data. Try again…')
       setZealixMessage(undefined)
     } finally {
       setFetchIsLoading(false)
@@ -97,7 +99,12 @@ const SeekAsylumForm: React.FC = () => {
       return
     }
 
-    const newFormData = { ...formData, accountId: activeAccount.address, category: 'refugee' }
+    const newFormData = {
+      ...formData,
+      status: false,
+      accountId: activeAccount.address,
+      category: 'refugee',
+    }
     const {
       skill,
       age,
@@ -118,11 +125,11 @@ const SeekAsylumForm: React.FC = () => {
         accountId,
         skill,
         age,
-        countryOfOrigin,
-        countryOfAsylum,
         status,
         idType,
         govIdNumber,
+        countryOfOrigin,
+        countryOfAsylum,
         resumeUrl,
         category,
       ])
@@ -164,7 +171,7 @@ const SeekAsylumForm: React.FC = () => {
                 </FormItem>
 
                 <FormItem>
-                  <FormLabel className="text-base">Country</FormLabel>
+                  <FormLabel className="text-base">Country of Origin</FormLabel>
                   <FormControl>
                     <Select
                       {...register('countryOfOrigin')}
@@ -174,7 +181,7 @@ const SeekAsylumForm: React.FC = () => {
                 </FormItem>
 
                 <FormItem>
-                  <FormLabel className="text-base">Country</FormLabel>
+                  <FormLabel className="text-base">Country of Asylum</FormLabel>
                   <FormControl>
                     <Select
                       {...register('countryOfAsylum')}
@@ -190,9 +197,11 @@ const SeekAsylumForm: React.FC = () => {
                   <FormControl>
                     <Select
                       {...register('status')}
+                      disabled={true}
+                      value={'false'}
                       options={[
-                        { label: 'Verified', value: 'true' },
                         { label: 'Not Verified', value: 'false' },
+                        { label: 'Verified', value: 'true' },
                       ]}
                     />
                   </FormControl>
@@ -251,7 +260,7 @@ const SeekAsylumForm: React.FC = () => {
                   disabled={fetchIsLoading || form.formState.isSubmitting}
                   isLoading={form.formState.isSubmitting}
                 >
-                  Register
+                  Register as Refugee
                   {/* {currentUserData?.category == 'Refugee' ? 'Update My Data' : 'Register'} */}
                 </Button>
               </FormItem>
