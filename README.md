@@ -1,62 +1,67 @@
-![inkathon Devtooling Banner](inkathon-devtooling-banner.png)
+<a name="readme-top"></a>
 
-# ink!athon Boilerplate
+<br />
+<div align="center">
+  <a href="">
+    <img src="./images/Zealix-logo-showcase-Brown-Bg.png" alt="Logo" width="200" height="55">
+  </a>
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Built with ink!](https://raw.githubusercontent.com/paritytech/ink/master/.images/badge.svg)](https://use.ink)
-![Rust](https://img.shields.io/badge/Rust-000000?logo=rust&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-000000?logo=typescript&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)
+  <h3 align="center">Zealix - The Silo of Hope</h3>
 
-This is a full-stack dApp boilerplate for ink! smart contracts with an integrated frontend. It can be used to quickly start developing your hackathon idea or to scaffold a production-ready Web3 application.
-
-The project is part of a [Scio Labs](https://scio.xyz) initiative to improve the developer experience in the ink! ecosystem and a proud member of the [Aleph Zero EFP](https://alephzero.org/ecosystem-funding-program). 💜
-
-Other projects include:
-
-- `create-ink-app` CLI (_Coming soon_)
-- [`ink!athon`](https://github.com/scio-labs/inkathon) Boilerplate
-- [`useInkathon`](https://github.com/scio-labs/use-inkathon) Hooks & Utility Library
-- [`zink!`](https://github.com/scio-labs/zink) Smart Contract Macros
-
-**Join the discussion in our [Telegram Group](https://t.me/inkathon)** 💬
-
-**If you want to contribute, please read our [Contributor Guidelines](https://github.com/scio-labs/inkathon/blob/main/CONTRIBUTING.md)** 🙏
+</div>
 
 ---
 
 **Table of Contents:**
 
 1. [About 📖](#about-)
-2. [Getting started 🚀](#getting-started-)
+2. [Overview 📖](#overview-)
+3. [Getting started 🚀](#getting-started-)
    1. [1. Run the frontend](#1-run-the-frontend)
    2. [2. Build \& deploy contracts on a local node](#2-build--deploy-contracts-on-a-local-node)
    3. [3. Connect the frontend to the local node](#3-connect-the-frontend-to-the-local-node)
-3. [Customization 🎨](#customization-)
+4. [Customization 🎨](#customization-)
    1. [1. Project Name](#1-project-name)
    2. [2. Custom Contracts](#2-custom-contracts)
    3. [3. Custom Scripts](#3-custom-scripts)
-4. [The Stack 🥞](#the-stack-)
-5. [Live Examples 🌐](#live-examples-)
-6. [Deployment 🚢](#deployment-)
+5. [The Stack 🥞](#the-stack-)
+6. [Live Examples 🌐](#live-examples-)
+7. [Deployment 🚢](#deployment-)
    1. [Environment Variables](#environment-variables)
    2. [Contract Deployment](#contract-deployment)
-7. [VSCode Setup 🛠](#vscode-setup-)
+8. [VSCode Setup 🛠](#vscode-setup-)
    1. [Workspace](#workspace)
    2. [Plugins](#plugins)
-8. [FAQs \& Troubleshooting 💬](#faqs--troubleshooting-)
+9. [FAQs \& Troubleshooting 💬](#faqs--troubleshooting-)
 
 ---
 
 ## About 📖
 
-The boilerplate comes with a small sample ink! `Greeter` contract which stores a `message` (the "greeting") and allows anyone to update it. The frontend contains simple UI components to connect your wallet and interact with the contract (i.e. read & write the `message`). Try it out live on [inkathon.xyz](https://inkathon.xyz).
+The boilerplate comes with a small sample ink! `Greeter` contract which stores a `message` (the "greeting") and allows anyone to update it. The frontend contains simple UI components to connect your wallet and interact with the contract (i.e. read & write the `message`). Try it out live on [Zealix](https://inkathon.xyz).
+
+## Overview
+The article discusses Universal Music Group's decision to remove its music from TikTok and the broader challenge of using copyrighted work. It introduces Right To Use (RYTU), a web3-based solution that allows copyright holders to grant the "right to use" their work through minting RYTU NFTs. The article highlights the platform's importance in providing flexible terms for copyright usage and its potential to revolutionize copyright distribution globally. It outlines the features of the RYTU marketplace, its business model including transaction and royalty fees, personal NFT collections, verification services, and advertisement revenue. The roadmap includes plans for a Chrome extension, NFT Image Generator, and commitments from team members to distribute their RYTU NFTs.
+
+### Zealix User Interface
+![Alt text](./images/rightui.png?raw=true "Zealix on Testnet")
+
+
+## Zealix Smart Contract (Aleph Zero Testnet)
+
+* Account: 4CfR5Gw8L1n4tgMr2Ud31vyrRzUBUdSGCwDjCJ8AJAkLLFYA
+* Smart Contract Address: 5GSZpLBykXuVFZ5nK8brrE1nNhyn8UozU3tqkng7NzhY7arV
+
+* On Aleph Zero Testnet (https://contracts-ui.substrate.io/contract/5GSZpLBykXuVFZ5nK8brrE1nNhyn8UozU3tqkng7NzhY7arV)
+![Alt text](./images/zealix-hash.png?raw=true "Aleph Zero on Testnet")
+
+
 
 ## Getting started 🚀
 
 ### 1. Run the frontend
 
-The frontend works out of the box, without a local node running, as the sample contract is pre-deployed on certain live testnets (i.e. `alephzero-testnet` and `shibuya`). Necessary deployment metadata and addresses are provided under `contracts/deployments/`.
+The frontend works out of the box, without a local node running, as the sample contract is pre-deployed on certain live testnets (i.e. `alephzero-testnet`). Necessary deployment metadata and addresses are provided under `contracts/deployments/`.
 
 > **Pre-requisites:**
 >
@@ -153,34 +158,6 @@ Adding custom scripts is useful to interact with your contracts or test certain 
 
 For general scripts, the same environment variable initialization & configuration applies as described below in the [Deployment](#deployment) section (e.g. to change the target network).
 
-## The Stack 🥞
-
-<details>
-<summary><strong>The Stack in Detail</strong></summary>
-
-- Monorepo Workspace with `contracts/` and `frontend/` directories as packages.
-- Package Manager: `pnpm` or `yarn@stable` (Read more in the [FAQs](#faqs--troubleshooting) section below)
-- Smart Contract Development: Rust, ink!, `cargo-contract`, `substrate-contracts-node`
-- Frontend: Next.js (app-dir), React, TypeScript
-  - Contract Interactions: `polkadot-js`, [`useInkathon`](https://github.com/scio-labs/use-inkathon) React Hooks & Utility Library (alternatively: [`useInk`](https://use.ink/frontend/getting-started))
-  - Styling: `shadcn/ui`, `tailwindcss`
-  - Linting & Formatting: `eslint`, `prettier`, `simple-git-hooks`, `lint-staged`
-- Type-safe contract generation via [`typechain-polkadot`](https://github.com/Brushfam/typechain-polkadot)
-
-<small>Styling, linting, and formatting libraries can be fully dropped or replaced with alternatives.</small>
-
-</details>
-
-![inkathon Stack Diagram](inkathon-stack-diagram.png)
-
-## Live Examples 🌐
-
-Below you find live examples that use this boilerplate or have a similar setup inspired by it:
-
-- [inkathon.xyz](https://inkathon.xyz) – Live demo deployment of this boilerplate
-- [AZERO.ID](https://azero.id) – Domain Name Service for Aleph Zero and beyond
-- Multiple hackathon projects from [ETHWarsaw](https://ethwarsaw-2023.devpost.com/submissions/), [HackOnChain](https://www.hackonchain.xyz/), [ETHDam](https://www.ethdam.com/), and the [Polkadot ink! Hackathon](https://www.encode.club/polkadot-ink-hackathon).
-
 ## Deployment 🚢
 
 Spinning up a deployment via Vercel is pretty straightforward as the necessary settings are already configured in `vercel.json`. If you haven't cloned the repository yet, you can also use the **Deploy** button below to create a new repository from this template.
@@ -188,6 +165,15 @@ Spinning up a deployment via Vercel is pretty straightforward as the necessary s
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fhello-world&env=NEXT_PUBLIC_DEFAULT_CHAIN&envDescription=Insert%20%60alephzero-testnet%60%20or%20%60shibuya%60&envLink=https%3A%2F%2Fgithub.com%2Fscio-labs%2Finkathon%23environment-variables&project-name=inkathon&repository-name=inkathon&redirect-url=https%3A%2F%2Fgithub.com%2Fscio-labs%2Finkathon&demo-url=https%3A%2F%2Finkathon.xyz)
 
 Alternatively, you can also use the provided Dockerfiles to deploy to any hosting provider of your choice. Read more [here](https://github.com/scio-labs/inkathon/pull/50#issue-2041934251).
+
+
+## Live Demo 🌐
+
+Below you find live Demo for Zealix
+
+- [inkathon.xyz](https://inkathon.xyz) – Live demo deployment of this boilerplate
+
+
 
 ### Environment Variables
 
@@ -213,7 +199,7 @@ If your network is not provided by the `use-inkathon` library, you can add it ma
 
 ### Contract Deployment
 
-In the [Getting Started](#getting-started) section above, we've already deployed the sample `Greeter` contract on a local node. To target a live network, we can use the `CHAIN` environment variable when running the `deploy` script.
+In the [Getting Started](#getting-started) section above, we've already deployed the sample `Zealix` contract on a local node. To target a live network, we can use the `CHAIN` environment variable when running the `deploy` script.
 
 ```bash
 CHAIN=alephzero-testnet pnpm run deploy
@@ -324,3 +310,15 @@ They are stored under `contracts/typed-contracts/` and imported directly from th
 - [ink!athon Telegram Group](https://t.me/inkathon)
 
 </details>
+
+<br />
+<br />
+
+<div align="center">
+  <a href="">
+    <img src="./images/Zealix-logo-showcase-Wood-Bg.png" alt="Logo" width="200" height="55">
+  </a>
+
+  <h3 align="center">Zealix - The Silo of Hope</h3>
+
+</div>
