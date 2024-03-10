@@ -37,8 +37,10 @@ import { truncateHash } from '@/utils/truncate-hash'
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 
-export interface ConnectButtonProps {}
-export const ConnectButton: FC<ConnectButtonProps> = () => {
+export interface ConnectButtonProps {
+  showBalance: true | false
+}
+export const ConnectButton: FC<ConnectButtonProps> = ({ showBalance = false }) => {
   const {
     activeChain,
     switchActiveChain,
@@ -74,7 +76,7 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            className="h-12 min-w-[14rem] gap-2 rounded-2xl border border-white/10 bg-primary px-4 py-3 font-bold text-foreground"
+            className="h-12 min-w-[14rem] gap-2 rounded-[10px] border border-white/10 bg-primary px-4 py-3 font-bold text-foreground"
             isLoading={isConnecting}
             disabled={isConnecting}
             translate="no"
@@ -119,9 +121,9 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
       <DropdownMenu>
         <DropdownMenuTrigger
           asChild
-          className="rounded-2xl bg-gray-900 px-4 py-6 font-bold text-foreground"
+          className="rounded-[10px] bg-transparent px-2 py-6 font-bold text-foreground"
         >
-          <Button className="min-w-[14rem] border" translate="no">
+          <Button className="min-w-[14rem] border hover:text-[#181506]" translate="no">
             <div className="flex items-center justify-between gap-2">
               <div className="flex flex-col items-center justify-center">
                 <AccountName account={activeAccount} />
@@ -138,7 +140,7 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="end"
-          className="no-scrollbar max-h-[40vh] min-w-[14rem] overflow-scroll rounded-2xl"
+          className="no-scrollbar max-h-[40vh] min-w-[14rem] overflow-scroll rounded-[10px]"
         >
           {/* Supported Chains */}
           {supportedChains.map((chain) => (
@@ -200,18 +202,22 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
       </DropdownMenu>
 
       {/* Account Balance */}
-      {reducibleBalanceFormatted !== undefined && (
-        <div className="flex min-w-[10rem] items-center justify-center gap-2 rounded-2xl border bg-gray-900 px-4 py-3 font-mono text-sm font-bold text-foreground">
-          {reducibleBalanceFormatted}
-          {(!reducibleBalance || reducibleBalance?.isZero()) && (
-            <Tooltip>
-              <TooltipTrigger className="cursor-help">
-                <AlertOctagon size={16} className="text-warning" />
-              </TooltipTrigger>
-              <TooltipContent>No balance to pay fees</TooltipContent>
-            </Tooltip>
-          )}
-        </div>
+      {showBalance && (
+        <>
+          {reducibleBalanceFormatted !== undefined && (
+            <div className="flex min-w-[10rem] items-center justify-center gap-2 rounded-[10px] border bg-transparent px-4 py-3 font-mono text-sm font-bold text-foreground">
+              {reducibleBalanceFormatted}
+              {(!reducibleBalance || reducibleBalance?.isZero()) && (
+                <Tooltip>
+                  <TooltipTrigger className="cursor-help">
+                    <AlertOctagon size={16} className="text-warning" />
+                  </TooltipTrigger>
+                  <TooltipContent>No balance to pay fees</TooltipContent>
+                </Tooltip>
+              )}
+            </div>
+          )}{' '}
+        </>
       )}
     </div>
   )

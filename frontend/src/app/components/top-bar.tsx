@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 import { FaBarsStaggered } from 'react-icons/fa6'
+import { IoHeartSharp } from 'react-icons/io5'
+
+import { ConnectButton } from '@/components/web3/connect-button'
 
 const TopBar = () => {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -13,7 +16,7 @@ const TopBar = () => {
 
   return (
     <div className=" py-4 text-white">
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="mx-auto flex items-center justify-between sm:container">
         <div className="flex items-center">
           <Link href="/">
             <div>
@@ -28,8 +31,11 @@ const TopBar = () => {
         </div>
         <div className="flex items-center">
           <div className="hidden space-x-4 md:flex">
-            <Link href="/asylum">
-              <div className="hover:text-gray-300">Asylum</div>
+            <Link href="/refugee">
+              <div className="flex items-center gap-[5px]">
+                <div className="hover:text-gray-300">Refugee</div>
+                <IoHeartSharp className="heartbeat text-warning" />
+              </div>
             </Link>
             <Link href="/profile">
               <div className="hover:text-gray-300">Profile</div>
@@ -38,9 +44,11 @@ const TopBar = () => {
               <div className="hover:text-gray-300">About</div>
             </Link>
           </div>
-          <button className="ml-4 hidden rounded-md border border-white bg-transparent px-4 py-2 hover:bg-white hover:text-gray-800 md:block">
-            Connect Wallet
-          </button>
+
+          {/* Connect Wallet Button */}
+          <div className="ml-4 hidden md:block">
+            <ConnectButton showBalance={false} />
+          </div>
 
           <div className="md:hidden">
             <button className="text-xl" onClick={toggleMenu}>
@@ -59,8 +67,11 @@ const TopBar = () => {
             border: '1px solid rgba(255, 255, 255, 0.24)',
           }}
         >
-          <Link href="/asylum">
-            <div className="block py-2">Asylum</div>
+          <Link href="/refugee">
+            <div className="flex items-center gap-[5px]">
+              <div className="hover:text-gray-300">Refugee</div>
+              <IoHeartSharp className="heartbeat text-warning" />
+            </div>
           </Link>
           <Link href="/profile">
             <div className="block py-2">Profile</div>
@@ -68,6 +79,10 @@ const TopBar = () => {
           <Link href="/about">
             <div className="block py-2">About</div>
           </Link>
+
+          <div className="flex w-full justify-center border-t-[1px] border-[#ffffff30] pt-[15px]">
+            <ConnectButton showBalance={true} />
+          </div>
         </div>
       )}
     </div>

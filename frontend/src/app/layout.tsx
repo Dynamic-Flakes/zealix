@@ -91,7 +91,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
                   border-t-2"
                   style={borderColor}
                 >
-                  <Link href="/">
+                  <Link href="/chat">
                     <FaRegEnvelope style={{ color: '#65716f', fontSize: '42px' }} />
                   </Link>
                 </div>

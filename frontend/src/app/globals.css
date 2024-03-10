@@ -75,7 +75,7 @@
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
 
-    --primary: 263.4 70% 50.4%;
+    --primary: 48 15.46% 80.98%;
     --primary-foreground: 210 20% 98%;
 
     --secondary: #181506;
@@ -113,5 +113,36 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+  }
+
+  @keyframes heartbeat {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .heartbeat {
+    animation: heartbeat 1s infinite;
+  }
+
+  .zealix-bg {
+    background-color: #d6d3c7;
+    color: #181506;
+  }
+
+  .zealix-text-brown {
+    color: #181506;
+  }
+  .zealix-text-wood {
+    color: #d6d3c7;
+  }
+  .zealix-border-wood {
+    border-color: #d6d3c7;
   }
 }

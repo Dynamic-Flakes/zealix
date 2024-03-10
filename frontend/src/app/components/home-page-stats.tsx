@@ -16,7 +16,7 @@ export const HomePageStats: FC = () => {
         >
           <div className="uppercase tracking-[10px] opacity-[0.6]">Refugee</div>
           <div className="text-[22px] font-semibold">Already Employed</div>
-          <div className="h-[3px] w-[200px] bg-[#fff] opacity-[0.6]"></div>
+          <div className="h-[3px] w-[150px] bg-[#fff] opacity-[0.6]"></div>
           <div className="text-[28px]">2,000</div>
         </div>
         <div

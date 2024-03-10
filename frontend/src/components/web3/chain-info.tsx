@@ -39,7 +39,7 @@ export const ChainInfo: FC = () => {
   // Connection Loading Indicator
   if (!api)
     return (
-      <div className="mb-4 mt-8 flex flex-col items-center justify-center space-y-3 text-center font-mono text-sm text-gray-400 sm:flex-row sm:space-x-3 sm:space-y-0">
+      <div className="zealix-text-wood mb-4 mt-8 flex flex-col items-center justify-center space-y-3 text-center font-mono text-sm sm:flex-row sm:space-x-3 sm:space-y-0">
         <Spinner />
         <div>
           Connecting to {activeChain?.name} ({activeChain?.rpcUrls?.[0]})
@@ -50,7 +50,7 @@ export const ChainInfo: FC = () => {
   return (
     <>
       <div className="flex max-w-[22rem] grow flex-col gap-4">
-        <h2 className="text-center font-mono text-gray-400">Chain Info</h2>
+        <h2 className="zealix-text-wood text-center font-mono">Chain Info</h2>
 
         <Card>
           <CardContent className="pb-3 pt-6">
@@ -70,7 +70,7 @@ export const ChainInfo: FC = () => {
               <Link
                 href={Object.values(activeChain.explorerUrls)[0]}
                 target="_blank"
-                className="flex items-center justify-center gap-1 text-center text-sm text-gray-400 hover:text-white"
+                className="zealix-text-wood flex items-center justify-center gap-1 text-center text-sm hover:text-white"
               >
                 Explorer <HiOutlineExternalLink />
               </Link>
@@ -80,7 +80,7 @@ export const ChainInfo: FC = () => {
               <Link
                 href={activeChain.faucetUrls[0]}
                 target="_blank"
-                className="flex items-center justify-center gap-1 text-center text-sm text-gray-400 hover:text-white"
+                className="zealix-text-wood flex items-center justify-center gap-1 text-center text-sm hover:text-white"
               >
                 Faucet <HiOutlineExternalLink />
               </Link>
@@ -90,7 +90,7 @@ export const ChainInfo: FC = () => {
               <Link
                 href={`https://contracts-ui.substrate.io/?rpc=${activeChain.rpcUrls[0]}`}
                 target="_blank"
-                className="flex items-center justify-center gap-1 text-center text-sm text-gray-400 hover:text-white"
+                className="zealix-text-wood flex items-center justify-center gap-1 text-center text-sm hover:text-white"
               >
                 Contracts UI <HiOutlineExternalLink />
               </Link>
